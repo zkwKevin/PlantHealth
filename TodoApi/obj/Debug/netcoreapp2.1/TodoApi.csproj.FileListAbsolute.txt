@@ -1,0 +1,14 @@
+/Users/zhukewei/Desktop/planthealth/TodoApi/bin/Debug/netcoreapp2.1/TodoApi.deps.json
+/Users/zhukewei/Desktop/planthealth/TodoApi/bin/Debug/netcoreapp2.1/TodoApi.runtimeconfig.json
+/Users/zhukewei/Desktop/planthealth/TodoApi/bin/Debug/netcoreapp2.1/TodoApi.runtimeconfig.dev.json
+/Users/zhukewei/Desktop/planthealth/TodoApi/bin/Debug/netcoreapp2.1/TodoApi.dll
+/Users/zhukewei/Desktop/planthealth/TodoApi/bin/Debug/netcoreapp2.1/TodoApi.pdb
+/Users/zhukewei/Desktop/planthealth/TodoApi/obj/Debug/netcoreapp2.1/TodoApi.csprojAssemblyReference.cache
+/Users/zhukewei/Desktop/planthealth/TodoApi/obj/Debug/netcoreapp2.1/TodoApi.csproj.CoreCompileInputs.cache
+/Users/zhukewei/Desktop/planthealth/TodoApi/obj/Debug/netcoreapp2.1/TodoApi.RazorAssemblyInfo.cache
+/Users/zhukewei/Desktop/planthealth/TodoApi/obj/Debug/netcoreapp2.1/TodoApi.RazorAssemblyInfo.cs
+/Users/zhukewei/Desktop/planthealth/TodoApi/obj/Debug/netcoreapp2.1/TodoApi.AssemblyInfoInputs.cache
+/Users/zhukewei/Desktop/planthealth/TodoApi/obj/Debug/netcoreapp2.1/TodoApi.AssemblyInfo.cs
+/Users/zhukewei/Desktop/planthealth/TodoApi/obj/Debug/netcoreapp2.1/TodoApi.RazorTargetAssemblyInfo.cache
+/Users/zhukewei/Desktop/planthealth/TodoApi/obj/Debug/netcoreapp2.1/TodoApi.dll
+/Users/zhukewei/Desktop/planthealth/TodoApi/obj/Debug/netcoreapp2.1/TodoApi.pdb
