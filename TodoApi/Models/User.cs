@@ -1,9 +1,10 @@
 namespace TodoApi.Models
 {
-    public class TodoItem
+    public class User
     {
         public long Id { get; set;}
         public string Name { get; set;}
-        public int Time { get; set;}
+        public string Gender { get; set;}
+        public bool Birth { get; set;}
     }
 }

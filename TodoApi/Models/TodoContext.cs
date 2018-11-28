@@ -12,6 +12,13 @@ namespace TodoApi.Models
 
         //DbSet类-一个数据库表对象的实例
         public DbSet<TodoItem> TodoItems { get; set; }
-        public DbSet<ObjectItem> ObjectItems { get; set; }
+        public DbSet<TargetItem> TargetItems { get; set; }
+        public DbSet<TodoLog> TodoLogs { get; set; }
+        public DbSet<DayLog> DayLogs { get; set; }
+        public DbSet<User> Users { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder){
+            
+        }
     }
 }
