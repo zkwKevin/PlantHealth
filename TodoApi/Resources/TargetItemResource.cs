@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using TodoApi.CustomValidations;
+using TodoApi.Models;
 
-namespace TodoApi.Models
+namespace TodoApi.Resources
 {
-    public class TargetItem
+    public class TargetItemResource
     {
         public long Id { get; set;}
         public enum Kind 
@@ -12,11 +11,7 @@ namespace TodoApi.Models
             Animal = 0, 
             Plant = 1
         }
-
-        [Required]
-        public Kind? Type { get; set;}
-
-        [NameValidation]
+        public Kind Type { get; set;}
         public string Name { get; set;}
         public int HealthState { get; set;}
         public List<TodoLog> Logs{ get; set;}

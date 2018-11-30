@@ -1,51 +1,61 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using TodoApi.Models;
+using TodoApi.Service;
 
 namespace TodoApi.Controllers{
     [Route("api/[controller]")]
     [ApiController]
     public class TargetController : ControllerBase{
-        private readonly TodoContext _context;
+        private readonly ITargetItemManager _manager;
+        private readonly IMapper _mapper;
 
-        public TargetController(TodoContext context){
-            _context = context;
+        public TargetController(ITargetItemManager manager, IMapper mapper){
+            _manager = manager;
+            _mapper = mapper;
         }
 
         //Get a list of all targets
         [HttpGet]
-        public ActionResult<List<TargetItem>> GetAllTargets(){
-            return _context.TargetItems.ToList();
+        public ActionResult<List<TargetItem>> GetTargets(){
+            var targetItems = _manager.GetAllTargets();
+            var targetItemResources = _mapper.Map<List<TargetItem>>(targetItems);
+            return Ok(targetItemResources);
         }
 
         //Add a target
         [HttpPost]
         public IActionResult CreateTarget(TargetItem item){
-            _context.TargetItems.Add(item);
-            _context.SaveChanges();
-            return CreatedAtRoute("GetTarget", new { id = item.Id}, item );
+            if(ModelState.IsValid)
+            {
+                _manager.Create(item);
+                return CreatedAtRoute("GetTarget", new { id = item.Id}, item );
+            }
+            else
+                return BadRequest(ModelState);
         }
 
         //Get an target by id
         [HttpGet("{id}", Name = "GetTarget")]
         public ActionResult<TargetItem> GetTargetById(long id){
-            var item = _context.TargetItems.Find(id);
+            var item = _manager.GetById(id);
             if(item == null ){
                 return NotFound();
             }
-            return item;
+            var itemResource = _mapper.Map<TargetItem>(item);
+            return itemResource;
         }
 
         //Delete target
         [HttpDelete("{id}")]
         public IActionResult DeleteTarget(long id){
-            var target = _context.TargetItems.Find(id);
-            if(target == null){
+            var item = _manager.GetById(id);
+            if(item == null ){
                 return NotFound();
             }
-            _context.TargetItems.Remove(target);
-            _context.SaveChanges();
+            _manager.Delete(item);
             return NoContent();
         }
         

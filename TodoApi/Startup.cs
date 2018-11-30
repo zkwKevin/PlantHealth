@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using TodoApi.Models;
 using MySql.Data.EntityFrameworkCore.Extensions;
 using Microsoft.Extensions.Configuration;
+using AutoMapper;
+using TodoApi.Service;
 
 namespace TodoApi
 {
@@ -19,9 +21,11 @@ namespace TodoApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<ITargetItemManager, TargetItemManager>();
             services.AddDbContext<TodoContext>(options => 
                 options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddAutoMapper();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
