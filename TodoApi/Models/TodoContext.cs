@@ -14,11 +14,27 @@ namespace TodoApi.Models
         public DbSet<TodoItem> TodoItems { get; set; }
         public DbSet<TargetItem> TargetItems { get; set; }
         public DbSet<TodoLog> TodoLogs { get; set; }
-        public DbSet<DayLog> DayLogs { get; set; }
+        // public DbSet<DayLog> DayLogs { get; set; }
         public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder){
-            
+            modelBuilder.Entity<TodoLog>()
+                        .HasOne(p => p.TargetItem)
+                        .WithMany(b => b.Logs)
+                        .HasForeignKey(p => p.TargetItemId)
+                        .IsRequired();
+
+             modelBuilder.Entity<TodoLog>()
+                        .HasOne(p => p.TodoItem)
+                        .WithOne(b => b.TodoLog)
+                        .HasForeignKey<TodoItem>(p => p.TodoLogForeignKey)
+                        .IsRequired();
+
+            modelBuilder.Entity<DayLog>()
+                        .HasOne(p => p.TodoLog)
+                        .WithMany(b => b.DayLogs)
+                        .HasForeignKey(p => p.TodoLogId)
+                        .IsRequired();
         }
     }
 }

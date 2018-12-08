@@ -6,10 +6,11 @@ namespace TodoApi.Service
 {
     public interface ITargetItemManager
     {
-        List<TargetItem> GetAllTargets();
+        List<TargetItem> GetAllTargetItems();
 
-        void Create(TargetItem item);
-        TargetItem GetById(long id);
-        void Delete(TargetItem item);
+        void CreateTargetItem(TargetItem item);
+        TargetItem GetTargetItemById(long id);
+        void DeleteTargetItem(TargetItem item);
+
     }
 }

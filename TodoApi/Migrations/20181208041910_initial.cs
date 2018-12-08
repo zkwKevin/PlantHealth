@@ -23,20 +23,6 @@ namespace TodoApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TodoItems",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
-                    Name = table.Column<string>(nullable: true),
-                    Time = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TodoItems", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -57,8 +43,7 @@ namespace TodoApi.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("MySQL:AutoIncrement", true),
-                    TodoItemId = table.Column<long>(nullable: true),
-                    TargetItemId = table.Column<long>(nullable: true)
+                    TargetItemId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -68,57 +53,75 @@ namespace TodoApi.Migrations
                         column: x => x.TargetItemId,
                         principalTable: "TargetItems",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TodoLogs_TodoItems_TodoItemId",
-                        column: x => x.TodoItemId,
-                        principalTable: "TodoItems",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "DayLogs",
+                name: "DayLog",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("MySQL:AutoIncrement", true),
-                    TodoItermId = table.Column<string>(nullable: true),
                     Date = table.Column<DateTime>(nullable: false),
                     isComplete = table.Column<short>(nullable: false),
-                    TodoLogId = table.Column<long>(nullable: true)
+                    TodoLogId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DayLogs", x => x.Id);
+                    table.PrimaryKey("PK_DayLog", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DayLogs_TodoLogs_TodoLogId",
+                        name: "FK_DayLog_TodoLogs_TodoLogId",
                         column: x => x.TodoLogId,
                         principalTable: "TodoLogs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TodoItems",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("MySQL:AutoIncrement", true),
+                    Name = table.Column<string>(nullable: true),
+                    Time = table.Column<int>(nullable: false),
+                    TodoLogForeignKey = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TodoItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TodoItems_TodoLogs_TodoLogForeignKey",
+                        column: x => x.TodoLogForeignKey,
+                        principalTable: "TodoLogs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_DayLogs_TodoLogId",
-                table: "DayLogs",
+                name: "IX_DayLog_TodoLogId",
+                table: "DayLog",
                 column: "TodoLogId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TodoItems_TodoLogForeignKey",
+                table: "TodoItems",
+                column: "TodoLogForeignKey",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_TodoLogs_TargetItemId",
                 table: "TodoLogs",
                 column: "TargetItemId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TodoLogs_TodoItemId",
-                table: "TodoLogs",
-                column: "TodoItemId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "DayLogs");
+                name: "DayLog");
+
+            migrationBuilder.DropTable(
+                name: "TodoItems");
 
             migrationBuilder.DropTable(
                 name: "Users");
@@ -128,9 +131,6 @@ namespace TodoApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "TargetItems");
-
-            migrationBuilder.DropTable(
-                name: "TodoItems");
         }
     }
 }

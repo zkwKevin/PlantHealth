@@ -22,6 +22,7 @@ namespace TodoApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<ITargetItemManager, TargetItemManager>();
+            services.AddScoped<ITodoLogManager, TodoLogManager>();
             services.AddDbContext<TodoContext>(options => 
                 options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

@@ -1,38 +1,67 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using TodoApi.Models;
+using TodoApi.Service;
 
 namespace TodoApi.Controllers{
-    [Route("api/target")]
+    [Route("api/targetItems/{targetId}/actions")]
     [ApiController]
     public class TodoLogController : ControllerBase{
-        private readonly TodoContext _context;
+        private readonly ITodoLogManager _todoLogManager;
+        private readonly IMapper _mapper;
+        private readonly ITargetItemManager  _targetManager;
 
-        public TodoLogController(TodoContext context){
-            _context = context;
+
+
+        public TodoLogController(ITodoLogManager manager, IMapper mapper, ITargetItemManager targetManager)
+        {
+            _todoLogManager = manager;
+            _targetManager = targetManager;
+            _mapper = mapper;
         }
         
         //Add a todolog for a target
-        // [HttpPost("{id}")]
-        // public IActionResult Create(long id, TodoLog log, TodoItem item){
-        //     var act = _context.TodoItems.Find()
-        //     _context.TodoLogs.Add(log);
-        //     _context.TodoItems.Add(item);
-        //     _context.SaveChanges();
-        //     return CreatedAtRoute("GetLogList", new { id = log.Id}, log );
-        // }
+        [HttpPost]
+        public IActionResult CreateTodoLog(long targetId, TodoItem todoItem){
+          var targetItem = _targetManager.GetTargetItemById(targetId);
+          if(targetItem == null)
+          {
+              return NotFound();
+          }
+
+          _todoLogManager.AddTodoLogForTargetItem(targetItem, todoItem);
+                  
+          return Ok();
+        }
 
         //Get a TodoLoglist of a target
-        [HttpGet("{id}/log", Name = "GetLogList")]
-        public ActionResult<List<TodoLog>> GetAll(long id){
-            var item =  _context.TargetItems.Find(id);
-            if(item == null ){
+        [HttpGet(Name = "GetLogList")]
+        public ActionResult<List<TodoLog>> GetLogList(long targetId){
+                return  _todoLogManager.GetTodoLogForTargetItem(targetId);
+        }   
+
+        [HttpDelete("{todologId}")]
+        public IActionResult DeleteTodoLog(long todologId)
+        {
+            var todolog = _todoLogManager.GetATodoLog(todologId);
+            if(todolog== null ){
                 return NotFound();
             }
-            var logs = _context.TodoLogs.Where(e => e.Id == id);
-            item.Logs = logs.ToList();       
-            return item.Logs;
-        }   
+            _todoLogManager.DeleteTodoLogForTargetItem(todolog);
+            return NoContent();
+        }
+
+        [HttpDelete]
+        public IActionResult DeleteAll(long todologId)
+        {
+            var todolog = _todoLogManager.GetATodoLog(todologId);
+            if(todolog== null ){
+                return NotFound();
+            }
+            _todoLogManager.DeleteTodoLogForTargetItem(todolog);
+            return NoContent();
+        }
     }
 }

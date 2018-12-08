@@ -14,26 +14,26 @@ namespace TodoApi.Service
             _context = context;
         }
 
-        public List<TargetItem> GetAllTargets()
+        public List<TargetItem> GetAllTargetItems()
         {
             return  _context.TargetItems.ToList();     
         }
 
-        public void Create(TargetItem item)
+        public void CreateTargetItem(TargetItem item)
         {
             _context.TargetItems.Add(item);
             _context.SaveChanges(); 
         }
 
-        public TargetItem GetById(long id){
+
+        public TargetItem GetTargetItemById(long id){
             var item = _context.TargetItems.Find(id);
             return item;
         }
 
-         public void Delete(TargetItem item){
+         public void DeleteTargetItem(TargetItem item){
             _context.TargetItems.Remove(item);
             _context.SaveChanges();    
         }
-
     }
 }
