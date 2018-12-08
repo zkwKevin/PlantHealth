@@ -54,13 +54,13 @@ namespace TodoApi.Controllers{
         }
 
         [HttpDelete]
-        public IActionResult DeleteAll(long todologId)
+        public IActionResult DeleteAll(long targetId)
         {
-            var todolog = _todoLogManager.GetATodoLog(todologId);
-            if(todolog== null ){
+            var todologs = _todoLogManager.GetTodoLogForTargetItem(targetId);
+            if(todologs== null ){
                 return NotFound();
             }
-            _todoLogManager.DeleteTodoLogForTargetItem(todolog);
+            _todoLogManager.DeleteAllLogs(todologs);
             return NoContent();
         }
     }

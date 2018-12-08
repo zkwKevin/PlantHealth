@@ -10,7 +10,7 @@ namespace TodoApi.Service
         void DeleteTodoLogForTargetItem(TodoLog todoLog);
         List<TodoLog> GetTodoLogForTargetItem(long targetId);
         TodoLog GetATodoLog(long todologId);
-        // void DeleteAllLogs(List<TodoLog> allLog);
+        void DeleteAllLogs(List<TodoLog> allLog);
 
     }
 }

@@ -39,10 +39,10 @@ namespace TodoApi.Service
             _context.SaveChanges();  
         }
 
-        // public void DeleteAllLogs(List<TodoLog> allLogs)
-        // {
-        //     _context.TodoLogs.Remove(allLogs);
-        //     _context.SaveChanges();  
-        // }
+        public void DeleteAllLogs(List<TodoLog> allLogs)
+        {
+            _context.TodoLogs.RemoveRange(allLogs);
+            _context.SaveChanges();  
+        }
     }
 }
