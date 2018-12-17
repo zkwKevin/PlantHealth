@@ -28,13 +28,13 @@ namespace TodoApi.Service
 
         public void AddTodoLogForTargetItem(TargetItem targetItem, long todoItemId)
         {
-            var isExist = _context.TodoLogs.Any(s => s.TargetItemId == targetItem.Id && s.TodoItemId == todoItemId);
-            
-            if(!isExist)
-            {
-                _context.TodoLogs.Add(new TodoLog {TargetItemId = targetItem.Id, TodoItemId = todoItemId});
-                _context.SaveChanges();
-            }   
+            _context.TodoLogs.Add(new TodoLog {TargetItemId = targetItem.Id, TodoItemId = todoItemId});
+            _context.SaveChanges(); 
+        }
+
+        public bool TodoLogIsExist(TargetItem targetItem, long todoItemId)
+        {
+             return  _context.TodoLogs.Any(s => s.TargetItemId == targetItem.Id && s.TodoItemId == todoItemId);
         }
         
 

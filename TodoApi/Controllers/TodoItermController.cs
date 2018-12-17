@@ -39,7 +39,8 @@ namespace TodoApi.Controllers{
         public IActionResult CreateTodoLogWithDefaultSelection(long targetId, long todoItemId)
         {
             var targetItem = _targetManager.GetTargetItemById(targetId);
-            if(targetItem == null)
+            var isExist = _todoLogManager.TodoLogIsExist( targetItem, todoItemId);
+            if(targetItem == null || isExist)
             {
               return NotFound();
             }
