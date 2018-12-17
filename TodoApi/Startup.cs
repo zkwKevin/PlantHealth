@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using TodoApi.Models;
-using MySql.Data.EntityFrameworkCore.Extensions;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using AutoMapper;
 using TodoApi.Service;
@@ -23,8 +23,9 @@ namespace TodoApi
         {
             services.AddScoped<ITargetItemManager, TargetItemManager>();
             services.AddScoped<ITodoLogManager, TodoLogManager>();
+            services.AddScoped<ITodoItemManager, TodoItemManager>();
             services.AddDbContext<TodoContext>(options => 
-                options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddAutoMapper();
         }

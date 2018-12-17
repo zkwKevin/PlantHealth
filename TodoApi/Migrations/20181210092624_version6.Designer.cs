@@ -9,8 +9,8 @@ using TodoApi.Models;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    [Migration("20181208041910_initial")]
-    partial class initial
+    [Migration("20181210092624_version6")]
+    partial class version6
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,7 +33,7 @@ namespace TodoApi.Migrations
 
                     b.HasIndex("TodoLogId");
 
-                    b.ToTable("DayLog");
+                    b.ToTable("DayLogs");
                 });
 
             modelBuilder.Entity("TodoApi.Models.TargetItem", b =>
@@ -57,16 +57,15 @@ namespace TodoApi.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("IsBuildIn");
+
                     b.Property<string>("Name");
 
                     b.Property<int>("Time");
 
-                    b.Property<long>("TodoLogForeignKey");
+                    b.Property<int>("Type");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TodoLogForeignKey")
-                        .IsUnique();
 
                     b.ToTable("TodoItems");
                 });
@@ -78,9 +77,13 @@ namespace TodoApi.Migrations
 
                     b.Property<long>("TargetItemId");
 
+                    b.Property<long>("TodoItemId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("TargetItemId");
+
+                    b.HasIndex("TodoItemId");
 
                     b.ToTable("TodoLogs");
                 });
@@ -109,19 +112,16 @@ namespace TodoApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("TodoApi.Models.TodoItem", b =>
-                {
-                    b.HasOne("TodoApi.Models.TodoLog", "TodoLog")
-                        .WithOne("TodoItem")
-                        .HasForeignKey("TodoApi.Models.TodoItem", "TodoLogForeignKey")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("TodoApi.Models.TodoLog", b =>
                 {
                     b.HasOne("TodoApi.Models.TargetItem", "TargetItem")
                         .WithMany("Logs")
                         .HasForeignKey("TargetItemId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("TodoApi.Models.TodoItem", "TodoItem")
+                        .WithMany("Logs")
+                        .HasForeignKey("TodoItemId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

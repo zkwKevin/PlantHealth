@@ -26,22 +26,38 @@ namespace TodoApi.Service
         }
 
 
-        public void AddTodoLogForTargetItem(TargetItem targetItem, TodoItem todoItem)
+        public void AddTodoLogForTargetItem(TargetItem targetItem, long todoItemId)
         {
-     
-            _context.TodoLogs.Add(new TodoLog {TargetItemId = targetItem.Id, TodoItem = new TodoItem{ Name = todoItem.Name, Time = todoItem.Time}});
+            var isExist = _context.TodoLogs.Any(s => s.TargetItemId == targetItem.Id && s.TodoItemId == todoItemId);
             
-            _context.SaveChanges();
+            if(!isExist)
+            {
+                _context.TodoLogs.Add(new TodoLog {TargetItemId = targetItem.Id, TodoItemId = todoItemId});
+                _context.SaveChanges();
+            }   
         }
-        public void DeleteTodoLogForTargetItem(TodoLog todoLog)
+        
+
+        public void DeleteTodoLogForTargetItem(TodoItem todoItem, TodoLog todoLog)
         {
+            if(todoItem.IsBuildIn == false)
+            {
+                _context.TodoItems.Remove(todoItem);
+            } 
             _context.TodoLogs.Remove(todoLog);
             _context.SaveChanges();  
         }
 
         public void DeleteAllLogs(List<TodoLog> allLogs)
         {
-            _context.TodoLogs.RemoveRange(allLogs);
+            foreach (TodoLog log in allLogs){
+                var todoItem = _context.TodoItems.Find(log.TodoItemId);
+                if(todoItem.IsBuildIn == false)
+                {
+                    _context.TodoItems.Remove(todoItem);
+                } 
+                _context.TodoLogs.Remove(log);
+            }
             _context.SaveChanges();  
         }
     }

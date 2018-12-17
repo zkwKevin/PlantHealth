@@ -2,20 +2,21 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TodoApi.Models;
 
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    partial class TodoContextModelSnapshot : ModelSnapshot
+    [Migration("20181211103821_version8")]
+    partial class version8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("ProductVersion", "2.1.2-rtm-30932");
 
             modelBuilder.Entity("TodoApi.Models.DayLog", b =>
                 {
@@ -56,17 +57,13 @@ namespace TodoApi.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("IsBuildIn");
-
-                    b.Property<int?>("Mode");
-
-                    b.Property<string>("ModeValue");
+                    b.Property<int>("IsBuildIn");
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("Time");
+                    b.Property<int?>("Period");
 
-                    b.Property<int>("TimesForMode");
+                    b.Property<int>("Time");
 
                     b.Property<int?>("Type");
 

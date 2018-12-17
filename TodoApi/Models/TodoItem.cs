@@ -1,11 +1,22 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using static TodoApi.Models.Enum;
+
 namespace TodoApi.Models
 {
     public class TodoItem
     {
         public long Id { get; set;}
         public string Name { get; set;}
+        public int TimesForMode { get; set;}
         public int Time { get; set;}
-        public long TodoLogForeignKey {get; set;}
-        public TodoLog TodoLog {get; set;}
+        public ModeType? Mode { get; set;}
+        public string ModeValue { get; set;}
+        public List<TodoLog> Logs { get; set;}
+
+        public bool IsBuildIn { get; set;}
+
+        public Kind? Type { get; set;}
     }
 }

@@ -6,8 +6,8 @@ namespace TodoApi.Service
 {
     public interface ITodoLogManager
     {
-        void AddTodoLogForTargetItem(TargetItem targetItem, TodoItem todoItem);
-        void DeleteTodoLogForTargetItem(TodoLog todoLog);
+        void AddTodoLogForTargetItem(TargetItem targetItem, long todoItemId);
+        void DeleteTodoLogForTargetItem(TodoItem todoItem, TodoLog todoLog);
         List<TodoLog> GetTodoLogForTargetItem(long targetId);
         TodoLog GetATodoLog(long todologId);
         void DeleteAllLogs(List<TodoLog> allLog);
