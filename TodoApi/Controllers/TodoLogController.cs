@@ -24,14 +24,32 @@ namespace TodoApi.Controllers{
             _mapper = mapper;
         }
 
-        
+        //Edit a TodoLog
+        [HttpPut("{todologId}")]
+
+        public IActionResult UpdateTodoLog(long targetId, long todologId)
+        {
+            var targetItem = _targetManager.GetTargetItemById(targetId);
+            if(targetItem == null)
+            {
+              return NotFound();
+            }
+            var todoLog = _todoLogManager.GetATodoLog(todologId); 
+            if(todoLog == null)
+            {
+              return NotFound();
+            }
+            _todoLogManager.UpdateTodoLog(todoLog);
+            return NoContent();
+        }
         
 
         
 
         //Get a TodoLoglist of a target
         [HttpGet("logs", Name = "GetLogList")]
-        public ActionResult<List<TodoLog>> GetLogList(long targetId){
+        public ActionResult<List<TodoLog>> GetLogList(long targetId)
+        {
                 return  _todoLogManager.GetTodoLogForTargetItem(targetId);
         }
 

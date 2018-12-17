@@ -36,6 +36,11 @@ namespace TodoApi.Service
         {
              return  _context.TodoLogs.Any(s => s.TargetItemId == targetItem.Id && s.TodoItemId == todoItemId);
         }
+
+        public void UpdateTodoLog(TodoLog todoLog)
+        {
+            _context.TodoLogs.Update(todoLog);
+        }
         
 
         public void DeleteTodoLogForTargetItem(TodoItem todoItem, TodoLog todoLog)
