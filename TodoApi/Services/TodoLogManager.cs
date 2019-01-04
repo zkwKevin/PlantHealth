@@ -1,5 +1,6 @@
 
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
@@ -26,10 +27,12 @@ namespace TodoApi.Service
         }
 
 
-        public void AddTodoLogForTargetItem(TargetItem targetItem, long todoItemId)
+        public long AddTodoLogForTargetItem(TargetItem targetItem, long todoItemId)
         {
-            _context.TodoLogs.Add(new TodoLog {TargetItemId = targetItem.Id, TodoItemId = todoItemId});
+            var todolog = new TodoLog {TargetItemId = targetItem.Id, TodoItemId = todoItemId};
+            _context.TodoLogs.Add(todolog);
             _context.SaveChanges(); 
+            return todolog.Id;
         }
 
         public bool TodoLogIsExist(TargetItem targetItem, long todoItemId)

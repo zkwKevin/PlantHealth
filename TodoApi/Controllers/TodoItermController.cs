@@ -12,13 +12,15 @@ namespace TodoApi.Controllers{
         private readonly IMapper _mapper;
         private readonly ITodoItemManager  _todoItemManager;
         private readonly ITargetItemManager _targetManager;
-         private readonly ITodoLogManager _todoLogManager;
+        private readonly ITodoLogManager _todoLogManager;
+         private readonly IDayLogManager _dayLogManager;
     
-        public TodoItermController(IMapper mapper, ITodoItemManager todoItemManager, ITargetItemManager targetManager, ITodoLogManager todoLogManager)
+        public TodoItermController(IMapper mapper, ITodoItemManager todoItemManager, ITargetItemManager targetManager, ITodoLogManager todoLogManager, IDayLogManager dayLogManager)
         {
             _todoItemManager = todoItemManager;
             _todoLogManager = todoLogManager;
             _targetManager = targetManager;
+            _dayLogManager = dayLogManager;
             _mapper = mapper;
         }
 
@@ -44,9 +46,10 @@ namespace TodoApi.Controllers{
             {
               return NotFound();
             }
-            
-            _todoLogManager.AddTodoLogForTargetItem(targetItem, todoItemId);
-            
+            //Create todoLog
+            var IdJustCreated = _todoLogManager.AddTodoLogForTargetItem(targetItem, todoItemId);
+            //Create dayLog
+            _dayLogManager.CreateFirstDayLog(IdJustCreated); 
             return NoContent();
         }
 
