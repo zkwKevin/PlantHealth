@@ -78,7 +78,7 @@ namespace TodoApi.Service
                     case 2:
                         string[] weekDayArray = todoItem.ModeValue.Split(",");
                         int[] weekDays = new int[weekDayArray.Length];
-                        int Today = (int)(DateTime.Now.DayOfWeek + 6) % 7;
+                        int today2 = (int)(DateTime.Now.DayOfWeek + 6) % 7;
                         //Sort WeekDay array
                         for(int i = 0 ; i < weekDayArray .Length; i++)
                         {
@@ -86,17 +86,17 @@ namespace TodoApi.Service
                             weekDays[i] = weekDay;   
                         }
                         Array.Sort(weekDays);
-                        foreach (var item in weekDays)
-                        {
-                            Console.WriteLine(item.ToString()); // Assumes a console application
-                        }
+                        // foreach (var item in weekDays)
+                        // {
+                        //     Console.WriteLine(item.ToString()); // Assumes a console application
+                        // }
                         //Create DayLog with the nearest day
                         for(int i = 0 ; i < weekDays.Length; i++)
                         {
                             var FirstSetWeekDay = weekDays[i];
-                            if(Today <= FirstSetWeekDay)
+                            if(today2 <= FirstSetWeekDay)
                             {
-                                DateTime setDay = DateTime.Now.AddDays(FirstSetWeekDay - Today);
+                                DateTime setDay = DateTime.Now.AddDays(FirstSetWeekDay - today2);
                                 Console.WriteLine(setDay.ToString());
                                 _context.DayLogs.Add(new DayLog { Date = setDay, isComplete =false, TodoLogId = todoLogId});
                                 _context.SaveChanges(); 
@@ -104,15 +104,51 @@ namespace TodoApi.Service
                             }                           
                         }
                         //Create DayLog the next day
-                        if(Today > weekDays[weekDays.Length-1])
+                        if(today2 > weekDays[weekDays.Length-1])
                         {
-                            DateTime setDay = DateTime.Now.AddDays(weekDays[0] + 7 - Today);
-                            _context.DayLogs.Add(new DayLog { Date = setDay, isComplete =false, TodoLogId = todoLogId});
+                            var setDay = DateTime.Now.AddDays(weekDays[0] + 7 - today2).ToString("yyyy-MM-dd 09:00:00");
+                            DateTime Day = DateTime.Parse(setDay);
+                            _context.DayLogs.Add(new DayLog { Date = Day, isComplete =false, TodoLogId = todoLogId});
                             _context.SaveChanges(); 
                         }   
                         break;
                     //Month
                     case 3:
+                        string[] DayOfMonthArray = todoItem.ModeValue.Split(",");
+                        DateTime[] DaysOfMonth = new DateTime[DayOfMonthArray.Length];
+                        string thisMonth = DateTime.Now.ToString("yyyy/MM");
+                        DateTime today3 = DateTime.Now; 
+                        //Sort WeekDay array
+                        for(int i = 0 ; i < DayOfMonthArray.Length; i++)
+                        {
+                            var day = thisMonth + '/' + DayOfMonthArray[i];
+                            DateTime date = DateTime.Parse(day);
+                            DaysOfMonth[i] = date;      
+                        }
+                        Array.Sort(DaysOfMonth);
+                        foreach (var item in DaysOfMonth)
+                        {
+                            Console.WriteLine(item.ToString()); // Assumes a console application
+                        }
+                        
+                        //Create DayLog with the nearest day
+                        for(int i = 0 ; i < DaysOfMonth.Length; i++)
+                        {
+                            var FirstSetDay = DaysOfMonth[i];
+                            if(today3 <= FirstSetDay)
+                            {
+                                _context.DayLogs.Add(new DayLog { Date = FirstSetDay, isComplete =false, TodoLogId = todoLogId});
+                                _context.SaveChanges(); 
+                                break;
+                            }                           
+                        }
+                        //Create DayLog the next day
+                        if(today3 > DaysOfMonth[DaysOfMonth.Length-1])
+                        {
+                            var DayOfNextMonth = DaysOfMonth[0].AddMonths(1);
+                            _context.DayLogs.Add(new DayLog { Date = DayOfNextMonth, isComplete =false, TodoLogId = todoLogId});
+                            _context.SaveChanges(); 
+                        }   
                         break;
                 }
             }
