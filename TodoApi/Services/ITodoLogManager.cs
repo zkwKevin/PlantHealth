@@ -12,7 +12,8 @@ namespace TodoApi.Service
         TodoLog GetATodoLog(long todologId);
         void DeleteAllLogs(List<TodoLog> allLog);
         bool TodoLogIsExist(TargetItem targetItem, long todoItemId);
-        void UpdateTodoLog(TodoLog todoLog);
+        void UpdateTodoLog(TodoItem todoItem);
+        TodoItem GetTodoItemForTodoLog(TodoLog todoLog);
 
     }
 }

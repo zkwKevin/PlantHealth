@@ -13,21 +13,23 @@ namespace TodoApi.Controllers{
         private readonly IMapper _mapper;
         private readonly ITargetItemManager  _targetManager;
         private readonly ITodoItemManager  _todoItemManager;
+        private readonly IDayLogManager _dayLogManager;
 
 
 
-        public TodoLogController(ITodoLogManager manager, IMapper mapper, ITargetItemManager targetManager, ITodoItemManager todoItemManager)
+        public TodoLogController(ITodoLogManager manager, IMapper mapper, ITargetItemManager targetManager, ITodoItemManager todoItemManager, IDayLogManager dayLogManager)
         {
             _todoLogManager = manager;
             _targetManager = targetManager;
             _todoItemManager = todoItemManager;
+            _dayLogManager = dayLogManager;
             _mapper = mapper;
         }
 
-        //Edit a TodoLog
-        [HttpPut("{todologId}")]
+        //Update a TodoLog
+        [HttpPut("logs/{todologId}")]
 
-        public IActionResult UpdateTodoLog(long targetId, long todologId)
+        public IActionResult UpdateTodoLog(long targetId, long todologId, TodoItem todoItem)
         {
             var targetItem = _targetManager.GetTargetItemById(targetId);
             if(targetItem == null)
@@ -39,7 +41,11 @@ namespace TodoApi.Controllers{
             {
               return NotFound();
             }
-            _todoLogManager.UpdateTodoLog(todoLog);
+            todoItem.Id = todoLog.TodoItemId;
+            _todoLogManager.UpdateTodoLog(todoItem);
+            _dayLogManager.CreateFirstDayLog(todologId);
+            //change the mode
+            //********* */
             return NoContent();
         }
         

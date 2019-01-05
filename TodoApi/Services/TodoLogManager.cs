@@ -40,9 +40,19 @@ namespace TodoApi.Service
              return  _context.TodoLogs.Any(s => s.TargetItemId == targetItem.Id && s.TodoItemId == todoItemId);
         }
 
-        public void UpdateTodoLog(TodoLog todoLog)
+        public TodoItem GetTodoItemForTodoLog(TodoLog todoLog)
         {
-            _context.TodoLogs.Update(todoLog);
+            return _context.TodoItems.Find(todoLog.TodoItemId);
+        }
+
+        public void UpdateTodoLog(TodoItem todoItem)
+        {
+            if(todoItem.IsBuildIn == false)
+            {
+                _context.TodoItems.Update(todoItem);
+                _context.SaveChanges();         
+                Console.WriteLine(todoItem.Name);     
+            }  
         }
         
 

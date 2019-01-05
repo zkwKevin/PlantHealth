@@ -62,9 +62,9 @@ namespace TodoApi.Controllers{
             {
               return NotFound();
             }
-              _todoItemManager.CreateTodoItem(todoItem, targetItem);
-              _todoLogManager.AddTodoLogForTargetItem(targetItem , todoItem.Id);
-            
+            _todoItemManager.CreateTodoItem(todoItem, targetItem);
+            var IdJustCreated = _todoLogManager.AddTodoLogForTargetItem(targetItem , todoItem.Id);
+            _dayLogManager.CreateFirstDayLog(IdJustCreated);
             return NoContent();
         }
 
