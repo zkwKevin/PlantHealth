@@ -2,13 +2,16 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using TodoApi.CustomValidations;
 using static TodoApi.Models.Enum;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace TodoApi.Models
 {
     public class TargetItem
     {
         public long Id { get; set;}
-
+        
+        [JsonConverter(typeof(StringEnumConverter))]  
         [Required]
         public Kind? Type { get; set;}
 

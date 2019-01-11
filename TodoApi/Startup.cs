@@ -7,6 +7,11 @@ using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using AutoMapper;
 using TodoApi.Service;
+using Microsoft.AspNetCore.Http;
+// using JavaScriptEngineSwitcher.Core;
+// using JavaScriptEngineSwitcher.ChakraCore;
+// using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
+// using React.AspNet;
 
 namespace TodoApi
 {
@@ -21,6 +26,11 @@ namespace TodoApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+        //     services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName)
+        // .AddChakraCore();
+            services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
+                                                                    .AllowAnyMethod()
+                                                                     .AllowAnyHeader())); 
             services.AddScoped<IDayLogManager, DayLogManager>();
             services.AddScoped<ITargetItemManager, TargetItemManager>();
             services.AddScoped<ITodoLogManager, TodoLogManager>();
@@ -33,7 +43,10 @@ namespace TodoApi
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
-        {
+        { 
+            app.UseCors("AllowAll");
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseMvc();
         }
     }

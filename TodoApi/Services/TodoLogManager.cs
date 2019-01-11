@@ -50,8 +50,7 @@ namespace TodoApi.Service
             if(todoItem.IsBuildIn == false)
             {
                 _context.TodoItems.Update(todoItem);
-                _context.SaveChanges();         
-                Console.WriteLine(todoItem.Name);     
+                _context.SaveChanges();            
             }  
         }
         
