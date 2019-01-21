@@ -27,7 +27,7 @@ namespace TodoApi.Controllers{
 
         //Add a target
         [HttpPost]
-        public IActionResult CreateTarget(TargetItem item){
+        public IActionResult CreateTarget([FromBody]TargetItem item){
             if(ModelState.IsValid)
             {
                 _manager.CreateTargetItem(item);

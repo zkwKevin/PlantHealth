@@ -1,16 +1,20 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using TodoApi.Models;
+using TodoApi.Service;
 
-namespace TodoApi.Controllers{
+namespace TodoApi.Controllers
+{
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase{
-        private readonly TodoContext _context;
+        private readonly IUserManager _userManager;
 
-        public UserController(TodoContext context){
-            _context = context;
+        public UserController(IUserManager userManager){
+            _userManager = userManager;
         }
         
         

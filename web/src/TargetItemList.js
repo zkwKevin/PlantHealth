@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 
-class App2 extends Component {
+class ShowTarget extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,7 +21,7 @@ class App2 extends Component {
                 isLoading : false,
             })
         )
-        .catch(error => this.setState({error, isLoading : false}));
+        .catch(error => this.setState({error : error, isLoading : false}));
     }
 
     componentDidMount() {
@@ -45,17 +45,29 @@ class App2 extends Component {
     }
 }
 
-const TargetItem = ({body}) => {
-    return (
-        <div>             
-            <h2>{body.name}</h2>
-            <p>{body.type}</p>
+// const TargetItem = ({body}) => {
+//     return (
+//         <div>             
+//             <h2>{body.name}</h2>
+//             <p>{body.type}</p>
+//             <hr />            
+//         </div>
+//     );
+// };
+
+class TargetItem extends Component {
+    render() {
+        return (
+            <div>             
+            <h2>{this.props.body.name}</h2>
+            <p>{this.props.body.type}</p>
             <hr />            
         </div>
-    );
-};
+        )
+    }
+}
 
  
   
   
-export default App2;
+export default ShowTarget;

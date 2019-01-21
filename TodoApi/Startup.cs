@@ -8,10 +8,11 @@ using Microsoft.Extensions.Configuration;
 using AutoMapper;
 using TodoApi.Service;
 using Microsoft.AspNetCore.Http;
-// using JavaScriptEngineSwitcher.Core;
-// using JavaScriptEngineSwitcher.ChakraCore;
-// using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
-// using React.AspNet;
+using Hangfire.MySql.Core;
+using Hangfire;
+using System;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Filters;
 
 namespace TodoApi
 {
@@ -26,11 +27,22 @@ namespace TodoApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-        //     services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName)
-        // .AddChakraCore();
             services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
                                                                     .AllowAnyMethod()
                                                                      .AllowAnyHeader())); 
+            string sConnectionString = Configuration.GetConnectionString("HangfireConnection");
+            var storage = new MySqlStorage(sConnectionString, new MySqlStorageOptions
+            {
+            TransactionIsolationLevel = System.Data.IsolationLevel.ReadCommitted,
+            QueuePollInterval = TimeSpan.FromSeconds(15),
+            JobExpirationCheckInterval = TimeSpan.FromHours(1),
+            CountersAggregateInterval = TimeSpan.FromMinutes(5),
+            PrepareSchemaIfNecessary = true,
+            DashboardJobListLimit = 50000,
+            TransactionTimeout = TimeSpan.FromMinutes(1),
+            });
+            services.AddHangfire(x => x.UseStorage(storage));   
+            services.AddScoped<IUserManager, UserManager>();                                                   
             services.AddScoped<IDayLogManager, DayLogManager>();
             services.AddScoped<ITargetItemManager, TargetItemManager>();
             services.AddScoped<ITodoLogManager, TodoLogManager>();
@@ -45,6 +57,13 @@ namespace TodoApi
         public void Configure(IApplicationBuilder app)
         { 
             app.UseCors("AllowAll");
+            // var options = new DashboardOptions
+            // {
+            //      Authorization = new[] { new CustomAuthorizeFilter() }
+            // };
+            // app.UseHangfireDashboard("/hangfire", options);
+            app.UseHangfireDashboard("/hangfire");
+            app.UseHangfireServer();
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseMvc();
