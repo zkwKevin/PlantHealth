@@ -12,6 +12,8 @@ namespace TodoApi.Models
         [JsonConverter(typeof(StringEnumConverter))] 
         public Gender Gender { get; set;}
         public string Birth { get; set;}
-        public string Password { get; set; }
+        public string Email {get; set;}
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
     }
 }

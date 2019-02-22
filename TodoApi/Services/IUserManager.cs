@@ -6,6 +6,7 @@ namespace TodoApi.Service
 {
     public interface IUserManager
     {
-    
+        // User Authenticate(string username, string password);
+        User Create(User user, string password);
     }
 }

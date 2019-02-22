@@ -38,6 +38,7 @@ namespace TodoApi.Service
                     case 1:
                         string[] array = todoItem.ModeValue.Split(",");
                         DateTime[] dates = new DateTime[array.Length];
+                        string a = Convert.ToString(1);
                         
                         string today = DateTime.Now.ToString("yyyy/MM/dd");
                         //Sort DateTime array

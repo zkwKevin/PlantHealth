@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
-
+import { Redirect } from 'react-router-dom';
 class AddTarget extends Component{
     constructor(props){
       super(props);
       this.state = {
         Name: '',
-        Type: ''
+        Type: '',
+        redirect: false,
+        id:''
       };
     }
 
@@ -29,16 +31,31 @@ class AddTarget extends Component{
           Type: this.state.Type
         })
       })
+      // .then((response) => {
+      //   if(response.ok) {
+      //     response.json().then(data => console.log(data));       
+      //   } else {
+      //     alert(response.statusText);
+      //   }
+      // })
+      // .then(data => this.setState({redirect : true, id: data.id}));
       .then((response) => {
         if(response.ok) {
-          <Redirect to={"/target/"+ this.state}/>
+          var JSONdata = response.json();
+          this.setState({redirect : true, id: JSONdata.id})    
         } else {
           alert(response.statusText);
         }
-      });
+      })
     }
 
     render() {
+      if (this.state.redirect) {
+        return <Redirect to={{
+          pathname: "/target/:id",
+          state:  { referrer: this.state.id }
+        }} />;
+      }
       return (
         <div>
           <form onSubmit={(e) => this.handleFormSubmit(e)}>
