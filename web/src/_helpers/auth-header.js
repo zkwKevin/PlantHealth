@@ -1,4 +1,4 @@
-// make http request to api using JWT
+// make http request to server api using JWT
 
 export function authHeader(){
     let user = JSON.parse(localStorage.getItem('user'));
