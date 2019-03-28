@@ -1,6 +1,6 @@
-import {userConstants} from '../_constants';
+import {userConstants} from '../_constants/user.constants';
 
-export function registeration (state ={}, action ){
+export function registration (state ={}, action ){
     switch (action.type) {
         case userConstants.REGISTER_REQUEST :
             return {
