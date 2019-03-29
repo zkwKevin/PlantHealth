@@ -7,7 +7,6 @@ export const userActions = {
     login,
     logout,
     register,
-    getAll,
 }; 
 
 function login (username, password){
@@ -50,13 +49,13 @@ function register(user) {
         userService.register(user)
             .then(
                 user => {
-                    dispatch(success(user));
+                    dispatch(success());
                     history.push('/login');
                     dispatch(alertActions.success('Registration successful'));
                 },
                 error => {
-                    dispatch(failure(error));
-                    dispatch(alertActions.failure(error.toString()));
+                    dispatch(failure(error.toString()));
+                    dispatch(alertActions.error(error.toString()));
                 }
             )
     };
@@ -70,27 +69,27 @@ function register(user) {
         return { type: userConstants.REGISTER_FAILURE, error}
     }
 
-function getAllTarget(id){
-    return dispatch => {
-        dispatch(request(id));
+// function getAllTarget(id){
+//     return dispatch => {
+//         dispatch(request(id));
 
-        userService.getAll(id)
-            .then(
-                items => dispatch(success(items)),
-                error => dispatch(failure(error.toString()))
-            )
-    }
+//         userService.getAll(id)
+//             .then(
+//                 items => dispatch(success(items)),
+//                 error => dispatch(failure(error.toString()))
+//             )
+//     }
 
-    function request(id){
-        return { type: userConstants.GETALL_REQUEST}
-    }
-    function success(items){
-        return { type: userConstants.GETALL_SUCCESS, items}
-    }
-    function failure(error){
-        return { type: userConstants.GETALL_FAILURE, error}
-    }
-}
+//     function request(id){
+//         return { type: userConstants.GETALL_REQUEST}
+//     }
+//     function success(items){
+//         return { type: userConstants.GETALL_SUCCESS, items}
+//     }
+//     function failure(error){
+//         return { type: userConstants.GETALL_FAILURE, error}
+//     }
+// }
 
 }
 

@@ -4,7 +4,7 @@ import { userActions } from '../_actions/user.actions'
 import Link from 'react-router-dom/Link';
 
 
-class LoginPage extends Component{
+class RegisterPage extends Component{
 	constructor(props){
         super(props);
 
@@ -63,8 +63,8 @@ class LoginPage extends Component{
                         }
                     </div>
                     <div className={'form-group' + ( submitted && !user.email ? 'has-error':'' )}>
-                        <label htmlFor="password">Email</label>
-                        <input type="text" className="form-control" name="password" value={user.email} onChange={(e) => this.handleOnchange(e)}/>
+                        <label htmlFor="email">Email</label>
+                        <input type="text" className="form-control" name="email" value={user.email} onChange={(e) => this.handleOnchange(e)}/>
                         { submitted && !user.email && 
                             <div className="help-block">Email is required</div>
                         }
