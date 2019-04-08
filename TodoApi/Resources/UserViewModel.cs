@@ -4,7 +4,7 @@ using static TodoApi.Models.Enum;
 
 namespace TodoApi.Models
 {
-    public class RegistrationViewModel
+    public class UserViewModel
     {
         public long Id { get; set;}
         public string Name { get; set;}

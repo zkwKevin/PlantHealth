@@ -1,46 +1,68 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
 using TodoApi.Models;
 using TodoApi.Service;
-using TodoApi.Resources;
 using AutoMapper;
 using System;
+using System.IdentityModel.Tokens.Jwt;
+using WebApi.Helpers;
+using Microsoft.Extensions.Options;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 
 namespace TodoApi.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class UserController : ControllerBase{
         private readonly IUserManager _userManager;
         private readonly IMapper _mapper;
+        private readonly AppSettings _appSettings;
 
-        public UserController(IUserManager userManager, IMapper mapper){
+        public UserController(IUserManager userManager, IMapper mapper, IOptions<AppSettings> appSettings ){
             _userManager = userManager;
             _mapper = mapper;
+            _appSettings = appSettings.Value;
         }
         
-        // [AllowAnonymous]
-        // [HttpPost("authenticate")]
-        // public IActionResult Authenticate([FromBody]User userParam)
-        // {
-        //     var user = _userManager.Authenticate(userParam.Name, userParam.Password);
-        //     if(user == null)
-        //         return BadRequest(new { message = "Username or password is incorrect" });
-        //     return Ok(user);
-        // }
+        [AllowAnonymous]
+        [HttpPost("authenticate")]
+        public IActionResult Authenticate([FromBody]UserViewModel userViewModel)
+        {
+            var user = _userManager.Authenticate(userViewModel.Name, userViewModel.Password);
+            
+            if(user == null)
+                return BadRequest(new { message = "Username or password is incorrect" });
+            
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_appSettings.Secret));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, user.Id.ToString())
+                }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = creds
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var tokenString = tokenHandler.WriteToken(token);
+            return Ok(new {
+                Id = user.Id,
+                UserName = user.Name,
+                Token = tokenString
+            });
+        }
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public IActionResult Register([FromBody]RegistrationViewModel userModel)
+        public IActionResult Register([FromBody]UserViewModel userModel)
         {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            //transfer the data get from viewModel to Model
+            
+            //map userViewModel to entity
             var user = _mapper.Map<User>(userModel);
 
             try

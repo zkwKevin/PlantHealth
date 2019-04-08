@@ -13,6 +13,10 @@ using Hangfire;
 using System;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Filters;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using WebApi.Helpers;
 
 namespace TodoApi
 {
@@ -51,6 +55,9 @@ namespace TodoApi
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddAutoMapper();
+
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

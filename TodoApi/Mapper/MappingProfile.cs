@@ -10,8 +10,8 @@ namespace TodoApi.AutoMapper{
             CreateMap<TargetItem, TargetItemResource>();
             CreateMap<TargetItemResource, TargetItem>();
 
-            CreateMap<User, RegistrationViewModel>();
-            CreateMap<RegistrationViewModel, User>();
+            CreateMap<User, UserViewModel>();
+            CreateMap<UserViewModel, User>();
         }     
     }
 }
