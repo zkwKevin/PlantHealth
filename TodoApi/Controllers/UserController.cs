@@ -76,7 +76,29 @@ namespace TodoApi.Controllers
             }
         }
 
-        
+        [HttpGet]
+        public IActionResult GetbyId(int id)
+        {
+            var user = _userManager.GetById(id);
+            var userViewModel = _mapper.Map<UserViewModel>(user);
+            return Ok(userViewModel);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult EditProfile(int id, [FromBody]UserProfileViewModel userProfileModel)
+        {
+            var user = _mapper.Map<User>(userProfileModel);
+            user.Id = id;
+            try
+            {
+                _userManager.EditProfile(user.Id, user);
+                return Ok();
+            }
+            catch(ApplicationException ex)
+            {
+                return BadRequest(new { message = ex.Message});
+            }
+        }
         
     }
 }

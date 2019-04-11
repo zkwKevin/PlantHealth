@@ -26,7 +26,7 @@ namespace TodoApi.Controllers{
 
         //Get a TodoItemlist of a target
         [HttpGet]
-        public ActionResult<List<TodoItem>> GetTodoItemList(long targetId){
+        public ActionResult<List<TodoItem>> GetTodoItemList(int targetId){
             var targetItem = _targetManager.GetTargetItemById(targetId);
             if(targetItem == null)
             {
@@ -38,7 +38,7 @@ namespace TodoApi.Controllers{
 
         //Add a todolog for a target with action in selection
         [HttpPost("{todoItemId}")]
-        public IActionResult CreateTodoLogWithDefaultSelection(long targetId, long todoItemId)
+        public IActionResult CreateTodoLogWithDefaultSelection(int targetId, int todoItemId)
         {
             var targetItem = _targetManager.GetTargetItemById(targetId);
             var isExist = _todoLogManager.TodoLogIsExist( targetItem, todoItemId);
@@ -55,7 +55,7 @@ namespace TodoApi.Controllers{
 
         //Add a todolog for a target with custom action
         [HttpPost]
-        public IActionResult CreateCustomTodoLog(long targetId, TodoItem todoItem)
+        public IActionResult CreateCustomTodoLog(int targetId, TodoItem todoItem)
         {
             var targetItem = _targetManager.GetTargetItemById(targetId);
             if(targetItem == null)
@@ -79,7 +79,7 @@ namespace TodoApi.Controllers{
 
         //Admin delete todoIterm
         [HttpDelete("{itermId}")]
-        public IActionResult DeleteTodoIterm (long itermId)
+        public IActionResult DeleteTodoIterm (int itermId)
         {
             var iterm = _todoItemManager.GetTodoItemById(itermId);
 

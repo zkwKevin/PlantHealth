@@ -6,12 +6,12 @@ namespace TodoApi.Service
 {
     public interface ITodoLogManager
     {
-        long AddTodoLogForTargetItem(TargetItem targetItem, long todoItemId);
+        int AddTodoLogForTargetItem(TargetItem targetItem, int todoItemId);
         void DeleteTodoLogForTargetItem(TodoItem todoItem, TodoLog todoLog);
-        List<TodoLog> GetTodoLogForTargetItem(long targetId);
-        TodoLog GetATodoLog(long todologId);
+        List<TodoLog> GetTodoLogForTargetItem(int targetId);
+        TodoLog GetATodoLog(int todologId);
         void DeleteAllLogs(List<TodoLog> allLog);
-        bool TodoLogIsExist(TargetItem targetItem, long todoItemId);
+        bool TodoLogIsExist(TargetItem targetItem, int todoItemId);
         void UpdateTodoLog(TodoItem todoItem);
         TodoItem GetTodoItemForTodoLog(TodoLog todoLog);
 

@@ -6,7 +6,7 @@ namespace TodoApi.Service
 {
     public interface IDayLogManager
     {
-         void CreateFirstDayLog(long todoLogId);
+         void CreateFirstDayLog(int todoLogId);
 
     }
 }

@@ -16,7 +16,7 @@ namespace TodoApi.Service
             _context = context;
         }
 
-        public void CreateFirstDayLog(long todoLogId)
+        public void CreateFirstDayLog(int todoLogId)
         {
             var todoLog = _context.TodoLogs.Find(todoLogId);
             var todoItem = _context.TodoItems.Find(todoLog.TodoItemId);

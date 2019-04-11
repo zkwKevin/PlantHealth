@@ -14,7 +14,7 @@ namespace TodoApi.Service
             _context = context;
         }
 
-        public TodoItem GetTodoItemById(long id){
+        public TodoItem GetTodoItemById(int id){
             var item = _context.TodoItems.Find(id);
             return item;
         }

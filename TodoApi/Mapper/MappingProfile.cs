@@ -12,6 +12,9 @@ namespace TodoApi.AutoMapper{
 
             CreateMap<User, UserViewModel>();
             CreateMap<UserViewModel, User>();
+
+            CreateMap<User, UserProfileViewModel>();
+            CreateMap<UserProfileViewModel, User>();
         }     
     }
 }

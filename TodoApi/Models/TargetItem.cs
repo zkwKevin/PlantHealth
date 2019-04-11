@@ -9,7 +9,7 @@ namespace TodoApi.Models
 {
     public class TargetItem
     {
-        public long Id { get; set;}
+        public int Id { get; set;}
         
         [JsonConverter(typeof(StringEnumConverter))]  
         [Required]
@@ -19,5 +19,7 @@ namespace TodoApi.Models
         public string Name { get; set;}
         public int HealthState { get; set;}
         public List<TodoLog> Logs{ get; set;}
+        public int UserId {get; set;}
+        public User User {get; set;}
     }
 }

@@ -36,6 +36,12 @@ namespace TodoApi.Models
                         .WithMany(b => b.DayLogs)
                         .HasForeignKey(p => p.TodoLogId)
                         .IsRequired();
+      
+            modelBuilder.Entity<TargetItem>()
+                        .HasOne(p => p.User)
+                        .WithMany(b => b.TargetItems)
+                        .HasForeignKey(p => p.UserId)
+                        .IsRequired();
         }
     }
 }

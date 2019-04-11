@@ -29,7 +29,7 @@ namespace TodoApi.Controllers{
         //Update a TodoLog
         [HttpPut("logs/{todologId}")]
 
-        public IActionResult UpdateTodoLog(long targetId, long todologId, TodoItem todoItem)
+        public IActionResult UpdateTodoLog(int targetId, int todologId, TodoItem todoItem)
         {
             var targetItem = _targetManager.GetTargetItemById(targetId);
             if(targetItem == null)
@@ -54,14 +54,14 @@ namespace TodoApi.Controllers{
 
         //Get a TodoLoglist of a target
         [HttpGet("logs", Name = "GetLogList")]
-        public ActionResult<List<TodoLog>> GetLogList(long targetId)
+        public ActionResult<List<TodoLog>> GetLogList(int targetId)
         {
                 return  _todoLogManager.GetTodoLogForTargetItem(targetId);
         }
 
         //Delete a TodoLog
         [HttpDelete("{todologId}")]
-        public IActionResult DeleteTodoLog(long todologId)
+        public IActionResult DeleteTodoLog(int todologId)
         {
             var todolog = _todoLogManager.GetATodoLog(todologId);
             if(todolog== null ){
@@ -74,7 +74,7 @@ namespace TodoApi.Controllers{
         }
         //Delete all TodoLogs
         [HttpDelete]
-        public IActionResult DeleteAll(long targetId)
+        public IActionResult DeleteAll(int targetId)
         {
             var todologs = _todoLogManager.GetTodoLogForTargetItem(targetId);
             if(todologs== null ){

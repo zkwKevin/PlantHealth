@@ -39,7 +39,7 @@ namespace TodoApi.Controllers{
 
         //Get an target by id
         [HttpGet("{id}", Name = "GetTarget")]
-        public ActionResult<TargetItem> GetTargetById(long id){
+        public ActionResult<TargetItem> GetTargetById(int id){
             var item = _manager.GetTargetItemById(id);
             if(item == null ){
                 return NotFound();
@@ -50,7 +50,7 @@ namespace TodoApi.Controllers{
 
         //Delete target
         [HttpDelete("{id}")]
-        public IActionResult DeleteTarget(long id){
+        public IActionResult DeleteTarget(int id){
             var item = _manager.GetTargetItemById(id);
             if(item == null ){
                 return NotFound();

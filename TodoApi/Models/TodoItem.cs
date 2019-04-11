@@ -7,7 +7,7 @@ namespace TodoApi.Models
 {
     public class TodoItem
     {
-        public long Id { get; set;}
+        public int Id { get; set;}
         public string Name { get; set;}
         public int TimesForMode { get; set;}
         public int Time { get; set;}

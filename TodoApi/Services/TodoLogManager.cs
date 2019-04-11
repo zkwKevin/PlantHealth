@@ -16,18 +16,18 @@ namespace TodoApi.Service
             _context = context;
         }
 
-        public List<TodoLog> GetTodoLogForTargetItem(long targetId)
+        public List<TodoLog> GetTodoLogForTargetItem(int targetId)
         {
             return _context.TodoLogs.Where(x => x.TargetItemId == targetId).ToList();
         }
 
-        public TodoLog GetATodoLog(long todologId)
+        public TodoLog GetATodoLog(int todologId)
         {
             return _context.TodoLogs.Find(todologId);
         }
 
 
-        public long AddTodoLogForTargetItem(TargetItem targetItem, long todoItemId)
+        public int AddTodoLogForTargetItem(TargetItem targetItem, int todoItemId)
         {
             var todolog = new TodoLog {TargetItemId = targetItem.Id, TodoItemId = todoItemId};
             _context.TodoLogs.Add(todolog);
@@ -35,7 +35,7 @@ namespace TodoApi.Service
             return todolog.Id;
         }
 
-        public bool TodoLogIsExist(TargetItem targetItem, long todoItemId)
+        public bool TodoLogIsExist(TargetItem targetItem, int todoItemId)
         {
              return  _context.TodoLogs.Any(s => s.TargetItemId == targetItem.Id && s.TodoItemId == todoItemId);
         }

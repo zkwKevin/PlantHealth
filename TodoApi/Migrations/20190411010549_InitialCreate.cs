@@ -1,35 +1,26 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TodoApi.Migrations
 {
-    public partial class version2 : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "TargetItems",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
-                    Type = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    HealthState = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TargetItems", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TodoItems",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
-                    Time = table.Column<int>(nullable: false)
+                    TimesForMode = table.Column<int>(nullable: false),
+                    Time = table.Column<int>(nullable: false),
+                    Mode = table.Column<int>(nullable: true),
+                    ModeValue = table.Column<string>(nullable: true),
+                    IsBuildIn = table.Column<bool>(nullable: false),
+                    Type = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -40,11 +31,14 @@ namespace TodoApi.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
-                    Gender = table.Column<string>(nullable: true),
-                    Birth = table.Column<short>(nullable: false)
+                    Gender = table.Column<int>(nullable: false),
+                    Birth = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    PasswordHash = table.Column<byte[]>(nullable: true),
+                    PasswordSalt = table.Column<byte[]>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -52,13 +46,35 @@ namespace TodoApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TargetItems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Type = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    HealthState = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TargetItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TargetItems_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TodoLogs",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
-                    TodoItemId = table.Column<long>(nullable: false),
-                    TargetItemId = table.Column<long>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    TodoItemId = table.Column<int>(nullable: false),
+                    TargetItemId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -81,11 +97,11 @@ namespace TodoApi.Migrations
                 name: "DayLogs",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Date = table.Column<DateTime>(nullable: false),
-                    isComplete = table.Column<short>(nullable: false),
-                    TodoLogId = table.Column<long>(nullable: false)
+                    isComplete = table.Column<bool>(nullable: false),
+                    TodoLogId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -104,6 +120,11 @@ namespace TodoApi.Migrations
                 column: "TodoLogId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TargetItems_UserId",
+                table: "TargetItems",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TodoLogs_TargetItemId",
                 table: "TodoLogs",
                 column: "TargetItemId");
@@ -120,9 +141,6 @@ namespace TodoApi.Migrations
                 name: "DayLogs");
 
             migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
                 name: "TodoLogs");
 
             migrationBuilder.DropTable(
@@ -130,6 +148,9 @@ namespace TodoApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "TodoItems");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

@@ -9,8 +9,8 @@ using TodoApi.Models;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    [Migration("20190218052940_version18")]
-    partial class version18
+    [Migration("20190411010549_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,12 +21,12 @@ namespace TodoApi.Migrations
 
             modelBuilder.Entity("TodoApi.Models.DayLog", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<long>("TodoLogId");
+                    b.Property<int>("TodoLogId");
 
                     b.Property<bool>("isComplete");
 
@@ -39,7 +39,7 @@ namespace TodoApi.Migrations
 
             modelBuilder.Entity("TodoApi.Models.TargetItem", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("HealthState");
@@ -48,14 +48,18 @@ namespace TodoApi.Migrations
 
                     b.Property<int>("Type");
 
+                    b.Property<int>("UserId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("TargetItems");
                 });
 
             modelBuilder.Entity("TodoApi.Models.TodoItem", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("IsBuildIn");
@@ -79,12 +83,12 @@ namespace TodoApi.Migrations
 
             modelBuilder.Entity("TodoApi.Models.TodoLog", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("TargetItemId");
+                    b.Property<int>("TargetItemId");
 
-                    b.Property<long>("TodoItemId");
+                    b.Property<int>("TodoItemId");
 
                     b.HasKey("Id");
 
@@ -97,7 +101,7 @@ namespace TodoApi.Migrations
 
             modelBuilder.Entity("TodoApi.Models.User", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Birth");
@@ -108,9 +112,9 @@ namespace TodoApi.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("Password");
+                    b.Property<byte[]>("PasswordHash");
 
-                    b.Property<string>("Token");
+                    b.Property<byte[]>("PasswordSalt");
 
                     b.HasKey("Id");
 
@@ -122,6 +126,14 @@ namespace TodoApi.Migrations
                     b.HasOne("TodoApi.Models.TodoLog", "TodoLog")
                         .WithMany("DayLogs")
                         .HasForeignKey("TodoLogId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TodoApi.Models.TargetItem", b =>
+                {
+                    b.HasOne("TodoApi.Models.User", "User")
+                        .WithMany("TargetItems")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
