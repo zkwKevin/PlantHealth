@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using TodoApi.Models;
+using WebApi.Helpers;
 
 namespace TodoApi.Service
 {
@@ -37,11 +38,11 @@ namespace TodoApi.Service
        public User Create(User user, string password)
        {
             if(string.IsNullOrWhiteSpace(password))
-                throw new ApplicationException("Password is required!");
+                throw new AppException("Password is required!");
             if(_context.Users.Any(x => x.Name == user.Name))
-                throw new ApplicationException("Username \"" + user.Name + "\" is already taken");
+                throw new AppException("Username \"" + user.Name + "\" is already taken");
             if(_context.Users.Any(x => x.Email == user.Email))
-                throw new ApplicationException("Email \"" + user.Email + "\" is already taken");
+                throw new AppException("Email \"" + user.Email + "\" is already taken");
             
             byte[] passwordHash, passwordSalt;
             CreatePasswordHash(password, out passwordHash, out passwordSalt);
@@ -94,33 +95,56 @@ namespace TodoApi.Service
             return _context.Users.Find(id);
        }
 
-       public void EditProfile(int id, User user){
+       public void EditProfile( User user){
            
-            var oldUser = _context.Users.Find(id);
+            var oldUser = _context.Users.Find(user.Id);
 
-            if(oldUser.Name != user.Name)
+            if (oldUser == null)
+                throw new AppException("User not found");
+
+            if(user.Name!=null)
             {
-                if(_context.Users.Any(x => x.Name == user.Name))
-                throw new ApplicationException("Username \"" + user.Name + "\" is already taken");
+                if(oldUser.Name != user.Name)
+                {
+                    if(_context.Users.Any(x => x.Name == user.Name))
+                    throw new AppException("Username \"" + user.Name + "\" is already taken");
+                }
+                oldUser.Name = user.Name;
             }
-                
-            if(oldUser.Email != user.Email)
+            
+            if(user.Email!=null)
             {
-               throw new ApplicationException("Email \"" + user.Email + "\" is already taken");
-            }
-                
-            oldUser.Name = user.Name;
+                if(oldUser.Email != user.Email)
+                {
+                throw new AppException("Email \"" + user.Email + "\" is already taken");
+                }
+                oldUser.Email = user.Email;
+            }  
+
             oldUser.Birth = user.Birth;
-            oldUser.Email = user.Email;
+            oldUser.Gender = user.Gender;
 
             _context.Users.Update(oldUser);
             _context.SaveChanges();
            
        }
 
-       public void UpdatePrivacy(int id, string password)
+       public void UpdatePrivacy( User user, string password)
        {
+           var oldUser = _context.Users.Find(user.Id);
 
+           if (oldUser == null)
+                throw new AppException("User not found");
+            if(!string.IsNullOrWhiteSpace(password))
+            {
+                byte[] passwordHash, passwordSalt;
+                CreatePasswordHash(password, out passwordHash, out passwordSalt);
+            
+                oldUser.PasswordHash = passwordHash;
+                oldUser.PasswordSalt = passwordSalt;
+            }
+            _context.Users.Update(oldUser);
+            _context.SaveChanges();
        }
 
         

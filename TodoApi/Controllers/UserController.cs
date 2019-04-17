@@ -15,7 +15,7 @@ namespace TodoApi.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/user")]
     public class UserController : ControllerBase{
         private readonly IUserManager _userManager;
         private readonly IMapper _mapper;
@@ -70,12 +70,12 @@ namespace TodoApi.Controllers
                 _userManager.Create(user, userModel.Password);
                 return Ok();
             }
-            catch(ApplicationException ex)
+            catch(AppException ex)
             {
                 return BadRequest(new { message = ex.Message});
             }
         }
-
+       
         [HttpGet]
         public IActionResult GetbyId(int id)
         {
@@ -84,21 +84,41 @@ namespace TodoApi.Controllers
             return Ok(userViewModel);
         }
 
-        [HttpPut("{id}")]
+       
+        [HttpPut("{id}/profile")]
         public IActionResult EditProfile(int id, [FromBody]UserProfileViewModel userProfileModel)
         {
             var user = _mapper.Map<User>(userProfileModel);
             user.Id = id;
             try
             {
-                _userManager.EditProfile(user.Id, user);
+                _userManager.EditProfile(user);
                 return Ok();
             }
-            catch(ApplicationException ex)
+            catch(AppException ex)
             {
                 return BadRequest(new { message = ex.Message});
             }
         }
+
+         [HttpPut("{id}/privacy")]
+        public IActionResult UpdatePrivacy(int id, [FromBody]UserViewModel userModel)
+        {
+            var user = _mapper.Map<User>(userModel);
+            user.Id = id;
+            try
+            {
+                _userManager.UpdatePrivacy(user, userModel.Password);
+                return Ok();
+            }
+            catch(AppException ex)
+            {
+                return BadRequest(new { message = ex.Message});
+            }
+        }
+
+
+
         
     }
 }

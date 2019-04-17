@@ -10,5 +10,6 @@ namespace TodoApi.Models
         public string Name { get; set;}
         public string Email {get; set;}
         public string Birth { get; set;}
+        public Gender Gender { get; set;}
     }
 }

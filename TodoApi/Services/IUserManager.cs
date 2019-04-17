@@ -10,8 +10,7 @@ namespace TodoApi.Service
         User Create(User user, string password);
         User Authenticate(string username, string password);
         User GetById(int id);
-        void EditProfile(int id, User user);
-
-        void UpdatePrivacy(int id, string password);
+        void EditProfile(User user);
+        void UpdatePrivacy(User user, string password);
     }
 }
