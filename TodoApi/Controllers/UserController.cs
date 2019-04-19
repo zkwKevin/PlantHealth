@@ -31,8 +31,8 @@ namespace TodoApi.Controllers
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody]UserViewModel userViewModel)
         {
-            var user = _userManager.Authenticate(userViewModel.Name, userViewModel.Password);
-            
+            var user = _userManager.Authenticate(userViewModel.Username, userViewModel.Password);
+            Console.WriteLine(userViewModel.Username , userViewModel.Password);
             if(user == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
             
@@ -52,7 +52,7 @@ namespace TodoApi.Controllers
             var tokenString = tokenHandler.WriteToken(token);
             return Ok(new {
                 Id = user.Id,
-                UserName = user.Name,
+                Username = user.Username,
                 Token = tokenString
             });
         }

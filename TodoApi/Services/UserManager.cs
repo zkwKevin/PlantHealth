@@ -23,7 +23,7 @@ namespace TodoApi.Service
            if(string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return null;
 
-            var user = _context.Users.SingleOrDefault(x => x.Name == username);
+            var user = _context.Users.SingleOrDefault(x => x.Username == username);
 
             if(user == null)
                 return null;
@@ -37,10 +37,11 @@ namespace TodoApi.Service
 
        public User Create(User user, string password)
        {
+        
             if(string.IsNullOrWhiteSpace(password))
                 throw new AppException("Password is required!");
-            if(_context.Users.Any(x => x.Name == user.Name))
-                throw new AppException("Username"  + user.Name + " is already taken");
+            if(_context.Users.Any(x => x.Username == user.Username))
+                throw new AppException("Username"  + user.Username + " is already taken");
             if(_context.Users.Any(x => x.Email == user.Email))
                 throw new AppException("Email " + user.Email + " is already taken");
             
@@ -102,14 +103,14 @@ namespace TodoApi.Service
             if (oldUser == null)
                 throw new AppException("User not found");
 
-            if(user.Name!=null)
+            if(user.Username!=null)
             {
-                if(oldUser.Name != user.Name)
+                if(oldUser.Username != user.Username)
                 {
-                    if(_context.Users.Any(x => x.Name == user.Name))
-                    throw new AppException("Username \"" + user.Name + "\" is already taken");
+                    if(_context.Users.Any(x => x.Username == user.Username))
+                    throw new AppException("Username \"" + user.Username + "\" is already taken");
                 }
-                oldUser.Name = user.Name;
+                oldUser.Username = user.Username;
             }
             
             if(user.Email!=null)

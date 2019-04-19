@@ -17,13 +17,12 @@ function login(username, password) {
     };
 
     return fetch('https://localhost:5001/api/user/authenticate', requestOptions)
-            .then(response =>  response.json())
+            .then(handleResponse)
             .then(user => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('user', JSON.stringify(user));
-                user;
+                return user;
             })
-            .catch(error => console.log(error));
 }
 
 function logout() {

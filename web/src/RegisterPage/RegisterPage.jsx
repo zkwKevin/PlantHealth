@@ -10,7 +10,7 @@ class RegisterPage extends Component{
 
         this.state = {
             user: {
-                name: "",
+                username: "",
                 password: "",
                 email: "",
             },  
@@ -61,7 +61,7 @@ class RegisterPage extends Component{
         const { user, emailValid, passwordValid} = this.state;
         const { dispatch } = this.props;
         
-        if( user.name && user.password && user.email && passwordValid && emailValid){
+        if( user.username && user.password && user.email && passwordValid && emailValid){
             dispatch(userActions.register(user));
         }
     }
@@ -85,10 +85,10 @@ class RegisterPage extends Component{
             <div>
                 <h1>Register</h1>
                 <form name="form" onSubmit={(e) => this.handleSubmit(e)}>
-                    <div className={'form-group' + ( submitted && !user.name ? 'has-error':'' )}>
-                        <label htmlFor="name">Username</label>
-                        <input type="text" className="form-control" name="name" value={user.rname} onChange={(e) => this.handleOnchange(e)}/>
-                        { submitted && !user.name && 
+                    <div className={'form-group' + ( submitted && !user.username ? 'has-error':'' )}>
+                        <label htmlFor="username">Username</label>
+                        <input type="text" className="form-control" name="username" value={user.username} onChange={(e) => this.handleOnchange(e)}/>
+                        { submitted && !user.username && 
                             <div className="help-block">Username is required</div>
                         }
                     </div>

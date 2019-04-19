@@ -7,7 +7,7 @@ namespace TodoApi.Models
     public class UserProfileViewModel
     {
         public long Id { get; set;}
-        public string Name { get; set;}
+        public string Username { get; set;}
         public string Email {get; set;}
         public string Birth { get; set;}
         public Gender Gender { get; set;}
