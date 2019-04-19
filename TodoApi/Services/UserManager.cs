@@ -40,9 +40,9 @@ namespace TodoApi.Service
             if(string.IsNullOrWhiteSpace(password))
                 throw new AppException("Password is required!");
             if(_context.Users.Any(x => x.Name == user.Name))
-                throw new AppException("Username \"" + user.Name + "\" is already taken");
+                throw new AppException("Username"  + user.Name + " is already taken");
             if(_context.Users.Any(x => x.Email == user.Email))
-                throw new AppException("Email \"" + user.Email + "\" is already taken");
+                throw new AppException("Email " + user.Email + " is already taken");
             
             byte[] passwordHash, passwordSalt;
             CreatePasswordHash(password, out passwordHash, out passwordSalt);

@@ -101,7 +101,8 @@ namespace TodoApi.Controllers
             }
         }
 
-         [HttpPut("{id}/privacy")]
+        
+        [HttpPut("{id}/privacy")]
         public IActionResult UpdatePrivacy(int id, [FromBody]UserViewModel userModel)
         {
             var user = _mapper.Map<User>(userModel);

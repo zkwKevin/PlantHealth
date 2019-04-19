@@ -10,10 +10,12 @@ class RegisterPage extends Component{
 
         this.state = {
             user: {
-                username: '',
-                password: '',
-                email: '',
-            },    
+                name: "",
+                password: "",
+                email: "",
+            },  
+            emailValid: false,
+            passwordValid: false,  
             submitted: false
         };
     }
@@ -21,52 +23,87 @@ class RegisterPage extends Component{
     handleOnchange(e) {
         const { name, value} = e.target;
         const {user} = this.state;
-        this.setState({
-            user: {
+        this.setState(
+            {
+                user: {
                 ...user,
                 [name] : value
-            }
-        });
+                }
+            },
+            () => {this.validateField(name, value)}
+        );
+    }
+
+    validateField(fieldName, value) {
+        let {emailValid,passwordValid} = this.state;
+       
+        switch(fieldName) {
+            case 'email':
+              emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+              break;
+            case 'password':
+              passwordValid = value.length >= 6;
+              break;
+            default:
+              break;
+          }
+          this.setState(
+              {
+                emailValid: emailValid,
+                passwordValid: passwordValid
+              });
     }
 
     handleSubmit(e) {
         e.preventDefault();
 
         this.setState( {submitted: true});
-        const { user } = this.state;
+        const { user, emailValid, passwordValid} = this.state;
         const { dispatch } = this.props;
         
-        if( user.username && user.password && user.email){
+        if( user.name && user.password && user.email && passwordValid && emailValid){
             dispatch(userActions.register(user));
         }
     }
 
     render() {
-        const { user, submitted } = this.state;
+        const { user, submitted, emailValid, passwordValid } = this.state;
         const { registering } = this.props;
+        let notify1, notify2;
+        if(submitted && !user.password)
+            notify1 = <div className="help-block">Password is required</div>;
+        else if(submitted && !passwordValid)
+            notify1 = <div className="help-block">Password is too short</div>;
+
+        if(submitted && !user.email)
+            notify2 = <div className="help-block">Email is required</div>;
+        else if(submitted && !emailValid)
+            notify2 = <div className="help-block">Email type is wrong</div>;
+        // if(!passwordValid)
+        //     notify1 = <div className="help-block">Password is too short</div>
         return(
             <div>
                 <h1>Register</h1>
                 <form name="form" onSubmit={(e) => this.handleSubmit(e)}>
-                    <div className={'form-group' + ( submitted && !user.username ? 'has-error':'' )}>
-                        <label htmlFor="username">Username</label>
-                        <input type="text" className="form-control" name="username" value={user.username} onChange={(e) => this.handleOnchange(e)}/>
-                        { submitted && !user.username && 
+                    <div className={'form-group' + ( submitted && !user.name ? 'has-error':'' )}>
+                        <label htmlFor="name">Username</label>
+                        <input type="text" className="form-control" name="name" value={user.rname} onChange={(e) => this.handleOnchange(e)}/>
+                        { submitted && !user.name && 
                             <div className="help-block">Username is required</div>
                         }
                     </div>
                     <div className={'form-group' + ( submitted && !user.password ? 'has-error':'' )}>
                         <label htmlFor="password">Password</label>
                         <input type="text" className="form-control" name="password" value={user.password} onChange={(e) => this.handleOnchange(e)}/>
-                        { submitted && !user.password && 
-                            <div className="help-block">Password is required</div>
+                        {
+                            notify1
                         }
                     </div>
                     <div className={'form-group' + ( submitted && !user.email ? 'has-error':'' )}>
                         <label htmlFor="email">Email</label>
                         <input type="text" className="form-control" name="email" value={user.email} onChange={(e) => this.handleOnchange(e)}/>
-                        { submitted && !user.email && 
-                            <div className="help-block">Email is required</div>
+                        {
+                            notify2
                         }
                     </div>
                     <div className="form-group">
