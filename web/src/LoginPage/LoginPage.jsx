@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect} from 'react-redux';
 import { userActions } from '../_actions/user.actions'
 import Link from 'react-router-dom/Link';
+import { styleActions } from '../_actions/style.actions';
 
 
 class LoginPage extends Component{
@@ -10,6 +11,7 @@ class LoginPage extends Component{
 
         //reset login status
         this.props.dispatch(userActions.logout());
+        this.props.dispatch(styleActions.changeLinkStyleToLogin());
 
         this.state = {
             username: '',
@@ -76,6 +78,8 @@ function mapStateToProps(state) {
 		loggingIn
 	};
 }
+
+
 
 const connectedLoginPage = connect(mapStateToProps)(LoginPage);
 export { connectedLoginPage as LoginPage };

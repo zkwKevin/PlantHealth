@@ -7,7 +7,10 @@ class HomePage extends Component{
 	
 	render(){
 		const { user} = this.props;
+		
+
 		return(
+			
 			<div className="col-me-6 col-md-offset-3">
 				<h1>Welcome {user.username}!</h1>
 				{/* add button to switch to Live mode */}

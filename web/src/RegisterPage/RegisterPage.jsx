@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect} from 'react-redux';
 import { userActions } from '../_actions/user.actions'
 import Link from 'react-router-dom/Link';
+import { styleActions } from '../_actions/style.actions';
 
 
 class RegisterPage extends Component{
@@ -18,6 +19,7 @@ class RegisterPage extends Component{
             passwordValid: false,  
             submitted: false
         };
+        this.props.dispatch(styleActions.changeLinkStyleToRegister());
     }
 
     handleOnchange(e) {
