@@ -71,11 +71,11 @@
     margin: 0;
 }
 
-.menu__search-button {
+.menu__userIcon {
     height: 42px;
     width: 42px;
     border-radius: 50%;
-    border: 1px solid #c8c9ce;
+    border: 0px;
     background-color: transparent;
     outline: none;
     cursor: pointer;

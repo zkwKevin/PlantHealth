@@ -7,10 +7,15 @@ import { alertActions } from '../_actions/alert.actions';
 import { styleActions } from '../_actions/alert.actions';
 import { PrivateRoute } from '../_components/PrivateRoute';
 import { HomePage } from '../HomePage/HomePage';
+import { AnimalPage } from  '../AnimalPage/AnimalPage';
 import { LoginPage } from '../LoginPage/LoginPage';
 import { RegisterPage } from '../RegisterPage/RegisterPage';
 import { NavBar } from '../AppNavigator/Navbar';
-// import logo from '../Img/logo.jpg';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faAngleDown, faAngleUp);
 
 class App extends React.Component {
     constructor(props) {
@@ -26,26 +31,56 @@ class App extends React.Component {
       
         const { styleChanged, alert, loggedIn } = this.props;
         let links;
-        if(loggedIn)
-            links =
-            [
-                { label:"Animal", link: "#animal", active: true},
-                { label:"Plant", link: "#plant"},
-                { label:"ScheduleTable", link: "#scheduleTable"},
-            ]
-        else if ( !loggedIn && styleChanged)
-            links =
-            [
-                { label:"Signin", link: "/login"},
-                { label:"Signup", link: "/register", active: true},
-            ] 
-            else 
+        if( styleChanged == "home")
                 links =
                 [
-                    { label:"Signin", link: "/login", active: true},
-                    { label:"Signup", link: "/register"},
+                    { label:"Home", link: "/", active: true},
+                    { label:"Animal", link: "/animal"},
+                    { label:"Plant", link: "#plant"},
+                    { label:"ScheduleTable", link: "#scheduleTable"},
+                ]
+       
+            else if(styleChanged == "animal")
+                links =
+                [
+                    { label:"Home", link: "/"},
+                    { label:"Animal", link: "/animal", active: true},
+                    { label:"Plant", link: "#plant"},
+                    { label:"ScheduleTable", link: "#scheduleTable"},
                 ]
 
+                else if(styleChanged == "plant")
+                links =
+                [
+                    { label:"Home", link: "/"},
+                    { label:"Animal", link: "/animal"},
+                    { label:"Plant", link: "#plant", active: true},
+                    { label:"ScheduleTable", link: "#scheduleTable"},
+                ]
+                    else if(styleChanged == "timetable")
+                    links =
+                    [
+                        { label:"Home", link: "/"},
+                        { label:"Animal", link: "/animal"},
+                        { label:"Plant", link: "#plant"},
+                        { label:"ScheduleTable", link: "#scheduleTable", active: true},
+                    ]
+                    
+                        else if( !loggedIn && styleChanged == "register")
+                            links =
+                            [
+                                { label:"Signin", link: "/login"},
+                                { label:"Signup", link: "/register", active: true},
+                            ] 
+                            else 
+                                links =
+                                [
+                                    { label:"Signin", link: "/login", active: true},
+                                    { label:"Signup", link: "/register"},
+                                ]
+
+        
+       
         return (
             <div className="sea">
                 <div className="land">
@@ -53,12 +88,15 @@ class App extends React.Component {
                         <NavBar links = {links} />
                     </div >
                         <div className="col-sm-8 col-sm-offset-2">
-                            {/* {alert.message &&
+                            {alert.message &&
                                 <div className='alert ${alert.type}'>{alert.message}</div>
-                            } */}
+                            }
                             <Router history={history}>
                                 <div>
                                     <PrivateRoute exact path="/" component={HomePage} />
+                                    <PrivateRoute exact path="/animal" component={AnimalPage}/>
+                                    {/* <PrivateRoute path="/plant" component={PlantPage}/>
+                                    <PrivateRoute path="/TimeTable" component={TimetablePage}/> */}
                                     <Route path="/login" component={LoginPage}/>
                                     <Route path="/register" component={RegisterPage}/>
                                 </div>

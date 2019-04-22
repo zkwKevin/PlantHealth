@@ -4,12 +4,28 @@ export function style (state ={}, action ){
     switch (action.type) {
         case "SetRegister" :
             return {
-                styleChanged: true,
+                styleChanged: "register",
             };
         case "SetLogin" :
             return {
-                styleChanged: false,
+                styleChanged: "login",
             };
+        case "SetAnimal" :
+            return {
+                styleChanged: "animal",
+        };
+        case "SetPlant" :
+            return {
+                styleChanged: "plant",
+        };
+        case "SetTimeTable" :
+            return {
+                styleChanged: "timetable",
+        };
+        case "SetHome" :
+            return {
+                styleChanged: "home",
+        };
         default:
             return state
     }

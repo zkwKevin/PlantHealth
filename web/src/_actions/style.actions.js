@@ -1,7 +1,12 @@
 
 export const styleActions = {
     changeLinkStyleToRegister,
-    changeLinkStyleToLogin
+    changeLinkStyleToLogin,
+    changeLinkStyleToAnimal,
+    changeLinkStyleToPlant,
+    changeLinkStyleToTimeTable,
+    changeLinkStyleToHome,
+    
 };
 
 function changeLinkStyleToRegister (){
@@ -14,5 +19,29 @@ function changeLinkStyleToRegister (){
 function changeLinkStyleToLogin (){
     return {
         type: "SetLogin"      
+    };
+}
+
+function changeLinkStyleToAnimal (){
+    return {
+        type: "SetAnimal"      
+    };
+}
+
+function changeLinkStyleToPlant (){
+    return {
+        type: "SetPlant"      
+    };
+}
+
+function changeLinkStyleToTimeTable (){
+    return {
+        type: "SetTimeTable"      
+    };
+}
+
+function changeLinkStyleToHome (){
+    return {
+        type: "SetHome"      
     };
 }

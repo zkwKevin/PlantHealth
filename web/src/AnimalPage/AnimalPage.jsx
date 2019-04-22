@@ -1,25 +1,22 @@
 import React, { Component } from 'react';
 import { connect} from 'react-redux';
 import { userActions } from '../_actions/user.actions';
-import { styleActions } from '../_actions/style.actions'
+import { styleActions } from '../_actions/style.actions';
 import { Link } from 'react-router-dom';
 
-class HomePage extends Component{
+class AnimalPage extends Component{
 	constructor(props){
 		super(props);
-		this.props.dispatch(styleActions.changeLinkStyleToHome());
-
+		this.props.dispatch(styleActions.changeLinkStyleToAnimal());
 	}
+	
 	render(){
-		const { user} = this.props;
 		
-
 		return(
 			
 			<div className="col-me-6 col-md-offset-3">
-				<h1>Welcome {user.username}!</h1>
+				<h1>Animal</h1>
 				{/* add button to switch to Live mode */}
-				<h3>All target items:</h3> 
 				
 				<p>
 					<Link to="/login">Logout</Link>
@@ -37,5 +34,5 @@ function mapStateToProps(state) {
 	};
 }
 
-const connectedHomePage = connect(mapStateToProps)(HomePage);
-export { connectedHomePage as HomePage };
+const connectedAnimalPage = connect(mapStateToProps)(AnimalPage);
+export { connectedAnimalPage as AnimalPage };
