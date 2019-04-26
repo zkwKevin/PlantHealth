@@ -9,7 +9,7 @@ namespace TodoApi.Models
         public TodoItem TodoItem { get; set;}
         public int TargetItemId { get; set;}
         public TargetItem TargetItem { get; set;}
-        public List<DayLog> DayLogs { get; set;}
+        public virtual List<DayLog> DayLogs { get; set;}
         
         
 

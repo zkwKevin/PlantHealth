@@ -1,4 +1,5 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var webpack = require('webpack');
 
 module.exports = {
     mode: 'development',
@@ -8,26 +9,45 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.jsx?$/,
+                test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 loader: 'babel-loader'
             },
             {   test: /\.css$/, 
                 loader: "style-loader!css-loader" 
             },
-            {
-                test: /\.(jpe?g|png|gif|svg)$/i,
-                loaders: [
-                  'file-loader?hash=sha512&digest=hex&name=[hash].[ext]',
-                  'image-webpack-loader?bypassOnDebug&optimizationLevel=7&interlaced=false'
-                ]
-              } 
+            { 
+                test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
+                use: {
+                    loader: 'url-loader',
+                    options: {
+                        limit: 100000,
+                    },
+                }
+            },
+            // {
+            //     // Exposes jQuery for use outside Webpack build
+            //     test: require.resolve('jquery'),
+            //     use: [{
+            //       loader: 'expose-loader',
+            //       options: 'jQuery'
+            //     },{
+            //       loader: 'expose-loader',
+            //       options: '$'
+            //     }]
+            // }
             
         ]
     },
-    plugins: [new HtmlWebpackPlugin({
+    plugins: [
+        new HtmlWebpackPlugin({
         template: './src/index.html'
-    })],
+    }),
+        // new webpack.ProvidePlugin({
+        //     $: 'jquery',
+        //     jQuery: 'jquery'
+        // })
+    ],
     devServer: {
         historyApiFallback: true
     },

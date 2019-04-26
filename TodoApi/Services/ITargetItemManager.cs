@@ -7,6 +7,7 @@ namespace TodoApi.Service
     public interface ITargetItemManager
     {
         List<TargetItem> GetAllTargetItems();
+        List<TargetItem> GetTargetListByUserId(int userId);
 
         void CreateTargetItem(TargetItem item);
         TargetItem GetTargetItemById(int id);

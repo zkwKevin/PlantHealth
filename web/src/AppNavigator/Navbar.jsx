@@ -12,7 +12,7 @@ class NavBar extends Component {
                 {
                     id: 0,
                     title: 'Settings',
-                    link: "#settings"
+                    link: "/setting"
                 },
                 {
                     id: 1,

@@ -12,5 +12,6 @@ namespace TodoApi.Service
         User GetById(int id);
         void EditProfile(User user);
         void UpdatePrivacy(User user, string password);
+        // User GetbyTargetItemFK(int fk);
     }
 }

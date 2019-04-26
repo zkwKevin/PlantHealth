@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using System.Collections.Generic;
 
 namespace TodoApi.Controllers
 {
@@ -18,13 +19,15 @@ namespace TodoApi.Controllers
     [Route("api/user")]
     public class UserController : ControllerBase{
         private readonly IUserManager _userManager;
+        private readonly ITargetItemManager _targetItemManager;
         private readonly IMapper _mapper;
         private readonly AppSettings _appSettings;
 
-        public UserController(IUserManager userManager, IMapper mapper, IOptions<AppSettings> appSettings ){
+        public UserController(IUserManager userManager, IMapper mapper, IOptions<AppSettings> appSettings, ITargetItemManager targetItemManager ){
             _userManager = userManager;
             _mapper = mapper;
             _appSettings = appSettings.Value;
+            _targetItemManager = targetItemManager;
         }
         
         [AllowAnonymous]
@@ -75,7 +78,7 @@ namespace TodoApi.Controllers
                 return BadRequest(new { message = ex.Message});
             }
         }
-       
+      
         [HttpGet]
         public IActionResult GetbyId(int id)
         {
@@ -116,10 +119,6 @@ namespace TodoApi.Controllers
             {
                 return BadRequest(new { message = ex.Message});
             }
-        }
-
-
-
-        
+        }       
     }
 }

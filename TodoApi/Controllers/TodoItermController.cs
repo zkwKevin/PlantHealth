@@ -13,7 +13,7 @@ namespace TodoApi.Controllers{
         private readonly ITodoItemManager  _todoItemManager;
         private readonly ITargetItemManager _targetManager;
         private readonly ITodoLogManager _todoLogManager;
-         private readonly IDayLogManager _dayLogManager;
+        private readonly IDayLogManager _dayLogManager;
     
         public TodoItermController(IMapper mapper, ITodoItemManager todoItemManager, ITargetItemManager targetManager, ITodoLogManager todoLogManager, IDayLogManager dayLogManager)
         {

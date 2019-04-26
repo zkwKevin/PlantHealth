@@ -73,28 +73,6 @@ function register(user) {
 }
 
 
-// function getAllTarget(id){
-//     return dispatch => {
-//         dispatch(request(id));
-
-//         userService.getAll(id)
-//             .then(
-//                 items => dispatch(success(items)),
-//                 error => dispatch(failure(error.toString()))
-//             )
-//     }
-
-//     function request(id){
-//         return { type: userConstants.GETALL_REQUEST}
-//     }
-//     function success(items){
-//         return { type: userConstants.GETALL_SUCCESS, items}
-//     }
-//     function failure(error){
-//         return { type: userConstants.GETALL_FAILURE, error}
-//     }
-// }
-
 
 
 

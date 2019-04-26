@@ -49,7 +49,7 @@
 .menu__link:hover {
     color: #ffaa3b;
     border-top: 4px solid #ffaa3b;
-    font-weight: 700;
+   
     text-decoration: none;
 }
 
@@ -68,7 +68,6 @@
     background-size: cover 100%;
     background-repeat: no-repeat;
     background-position: center;
-    margin: 0;
 }
 
 .menu__userIcon {
@@ -81,6 +80,7 @@
     cursor: pointer;
     background-repeat: no-repeat;
     background-position: center;
+    margin-right: 5px;
 }
 
 .menu__search-form {

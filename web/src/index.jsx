@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { store } from './_helpers/store';
 import { App } from './App/App';
 import "./index.css";
+import 'semantic-ui-css/semantic.min.css';
 
 
 // setup fake backend

@@ -18,7 +18,7 @@ namespace TodoApi.Models
         [NameValidation]
         public string Name { get; set;}
         public int HealthState { get; set;}
-        public List<TodoLog> Logs{ get; set;}
+        public virtual List<TodoLog> Logs{ get; set;}
         public int UserId {get; set;}
         public User User {get; set;}
     }

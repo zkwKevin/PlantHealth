@@ -13,7 +13,7 @@ namespace TodoApi.Models
         public int Time { get; set;}
         public ModeType? Mode { get; set;}
         public string ModeValue { get; set;}
-        public List<TodoLog> Logs { get; set;}
+        public virtual List<TodoLog> Logs { get; set;}
 
         public bool IsBuildIn { get; set;}
 

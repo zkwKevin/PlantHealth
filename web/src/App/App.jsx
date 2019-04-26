@@ -9,11 +9,13 @@ import { PrivateRoute } from '../_components/PrivateRoute';
 import { HomePage } from '../HomePage/HomePage';
 import { AnimalPage } from  '../AnimalPage/AnimalPage';
 import { LoginPage } from '../LoginPage/LoginPage';
+import { SettingPage } from '../SettingPage/SettingPage'
 import { RegisterPage } from '../RegisterPage/RegisterPage';
 import { NavBar } from '../AppNavigator/Navbar';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
+
 
 library.add(faAngleDown, faAngleUp);
 
@@ -71,13 +73,22 @@ class App extends React.Component {
                             [
                                 { label:"Signin", link: "/login"},
                                 { label:"Signup", link: "/register", active: true},
+                            ]
+
+                            else if( !loggedIn && styleChanged == "register")
+                            links =
+                            [
+                                { label:"Signin", link: "/login", active: true},
+                                { label:"Signup", link: "/register"}
                             ] 
-                            else 
-                                links =
-                                [
-                                    { label:"Signin", link: "/login", active: true},
-                                    { label:"Signup", link: "/register"},
-                                ]
+                                else 
+                                    links =
+                                    [
+                                        { label:"Home", link: "/"},
+                                        { label:"Animal", link: "/animal"},
+                                        { label:"Plant", link: "#plant"},
+                                        { label:"ScheduleTable", link: "#scheduleTable"},
+                                    ]   
 
         
        
@@ -97,6 +108,7 @@ class App extends React.Component {
                                     <PrivateRoute exact path="/animal" component={AnimalPage}/>
                                     {/* <PrivateRoute path="/plant" component={PlantPage}/>
                                     <PrivateRoute path="/TimeTable" component={TimetablePage}/> */}
+                                    <PrivateRoute exact path="/setting" component={SettingPage}/>
                                     <Route path="/login" component={LoginPage}/>
                                     <Route path="/register" component={RegisterPage}/>
                                 </div>

@@ -15,5 +15,6 @@ namespace TodoApi.Resources
         public string Name { get; set;}
         public int HealthState { get; set;}
         public List<TodoLog> Logs{ get; set;}
+        public int UserId {get; set;}
     }
 }

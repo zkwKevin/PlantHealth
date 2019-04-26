@@ -33,9 +33,7 @@ namespace TodoApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
-                                                                    .AllowAnyMethod()
-                                                                     .AllowAnyHeader())); 
+            services.AddCors(); 
             string sConnectionString = Configuration.GetConnectionString("HangfireConnection");
             var storage = new MySqlStorage(sConnectionString, new MySqlStorageOptions
             {
@@ -57,6 +55,11 @@ namespace TodoApi
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddAutoMapper();
+            services.AddMvc()
+                .AddJsonOptions(options => {
+                    options.SerializerSettings.ReferenceLoopHandling =
+                        Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                });
 
             // configure strongly typed settings objects
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
@@ -102,7 +105,10 @@ namespace TodoApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
         { 
-            app.UseCors("AllowAll");
+             app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
             // var options = new DashboardOptions
             // {
             //      Authorization = new[] { new CustomAuthorizeFilter() }

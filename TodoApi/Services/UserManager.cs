@@ -148,6 +148,11 @@ namespace TodoApi.Service
             _context.SaveChanges();
        }
 
+    //    public User GetbyTargetItemFK(int fk)
+    //    {
+    //        return _context.Users.Find(fk);
+    //    }
+
         
     }
 }

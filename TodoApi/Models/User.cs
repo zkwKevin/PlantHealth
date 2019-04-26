@@ -16,6 +16,6 @@ namespace TodoApi.Models
         public string Email {get; set;}
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
-        public List<TargetItem> TargetItems{ get; set;}
+        public virtual List<TargetItem> TargetItems{ get; set;}
     }
 }

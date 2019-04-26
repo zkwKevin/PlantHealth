@@ -5,8 +5,6 @@ export const userService = {
     login,
     logout,
     register,
-    getById,
-  
 };
 
 function login(username, password) {
@@ -30,39 +28,30 @@ function logout() {
     localStorage.removeItem('user');
 }
 
-// function getAll() {
+// function getById(id) {
 //     const requestOptions = {
 //         method: 'GET',
 //         headers: authHeader()
 //     };
 
-//     return fetch(`${config.apiUrl}/users`, requestOptions).then(handleResponse);
+//     return fetch('https://localhost:5001/api/user/${id}', requestOptions)
+//             .then(
+//                 response => {
+//                     if (!response.ok) {
+//                         if (response.status === 401) {
+//                             // auto logout if 401 response returned from api
+//                             logout();
+//                             location.reload(true);
+//                         }
+//                     }
+//                     response.json();
+//                 }
+//             )
+//             .then(user => {
+//                 return user;
+//             })
+//             .catch(error => console.log(error));
 // }
-
-function getById(id) {
-    const requestOptions = {
-        method: 'GET',
-        headers: authHeader()
-    };
-
-    return fetch('https://localhost:5001/api/user/${id}', requestOptions)
-            .then(
-                response => {
-                    if (!response.ok) {
-                        if (response.status === 401) {
-                            // auto logout if 401 response returned from api
-                            logout();
-                            location.reload(true);
-                        }
-                    }
-                    response.json();
-                }
-            )
-            .then(user => {
-                return user;
-            })
-            .catch(error => console.log(error));
-}
 
 function register(user) {
     const requestOptions = {
