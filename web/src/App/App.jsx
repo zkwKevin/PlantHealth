@@ -75,7 +75,7 @@ class App extends React.Component {
                                 { label:"Signup", link: "/register", active: true},
                             ]
 
-                            else if( !loggedIn && styleChanged == "register")
+                            else if( !loggedIn && styleChanged == "login")
                             links =
                             [
                                 { label:"Signin", link: "/login", active: true},

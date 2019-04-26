@@ -87,8 +87,8 @@ namespace TodoApi.Controllers
             return Ok(userViewModel);
         }
 
-       
-        [HttpPut("{id}/profile")]
+        
+        [HttpPut("profile/{id}")]
         public IActionResult EditProfile(int id, [FromBody]UserProfileViewModel userProfileModel)
         {
             var user = _mapper.Map<User>(userProfileModel);
@@ -104,8 +104,8 @@ namespace TodoApi.Controllers
             }
         }
 
-        
-        [HttpPut("{id}/privacy")]
+       
+        [HttpPut("privacy/{id}")]
         public IActionResult UpdatePrivacy(int id, [FromBody]UserViewModel userModel)
         {
             var user = _mapper.Map<User>(userModel);

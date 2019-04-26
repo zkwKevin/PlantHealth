@@ -115,11 +115,15 @@ namespace TodoApi.Service
             
             if(user.Email!=null)
             {
-                if(oldUser.Email != user.Email)
+                var currentEmail = user.Email;
+                var oldEmailOwner = _context.Users.Where(u => u.Email== currentEmail ).FirstOrDefault();
+                if(oldEmailOwner != null)
                 {
-                throw new AppException("Email \"" + user.Email + "\" is already taken");
+                    if(oldEmailOwner.Username != user.Username)
+                        throw new AppException("Email \"" + user.Email + "\" is already taken");
                 }
-                oldUser.Email = user.Email;
+                oldUser.Email = currentEmail;
+                
             }  
 
             oldUser.Birth = user.Birth;
@@ -148,11 +152,6 @@ namespace TodoApi.Service
             _context.SaveChanges();
        }
 
-    //    public User GetbyTargetItemFK(int fk)
-    //    {
-    //        return _context.Users.Find(fk);
-    //    }
 
-        
     }
 }
