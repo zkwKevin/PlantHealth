@@ -18,23 +18,42 @@ import {
   } from 'semantic-ui-react';
   import { BirthArray } from './BirthOptions';
   import { ProfilePage } from './ProfilePage';
+  import { PrivacyPage } from './PrivacyPage';
 
 class SettingPage extends Component{
 	constructor(props)
 	{
 		super(props);
-		this.state = { isEdit:false };
+		this.state = { 
+			isEdit: false,
+			isProfile: true,
+			activeItem: 'home',
+		};
 	}
 
 
-	handleClick(){
+	handleToggle(){
 		const {isEdit} = this.state;
 		this.setState({isEdit:!isEdit});
 	}
 
+	changeToProfile(){
+		const {isProfile} = this.state;
+		this.setState({ isProfile : true});
+	}
+
+	changeToPrivacy(){
+		const {isProfile} = this.state;
+		this.setState({ isProfile : false});
+	}
+
+	
+
+	
+
 	render(){
 
-		const { isEdit } = this.state;
+		const { isEdit, isProfile, activeItem } = this.state;
 		const genderOptions = [
 			{ key: 'm', text: 'Male', value: 'male' },
 			{ key: 'f', text: 'Female', value: 'female' },
@@ -50,11 +69,14 @@ class SettingPage extends Component{
 		return (
 			<Grid columns={2}>	
 				<Grid.Column textAlign='center' width={4}>
-					<Menu fluid vertical >
-					<Menu.Item >Profile</Menu.Item>
-					<Menu.Item>Privacy</Menu.Item>
-					</Menu>
+					<Button.Group  vertical>
+						<Button   color='yellow' onClick = {() => this.changeToProfile()}>Profile</Button>
+						<Button   color='orange' onClick = {() => this.changeToPrivacy()}>Privacy</Button>
+						
+					</Button.Group>
 				</Grid.Column>
+				{isProfile?
+				(
 				<Grid.Column  width={12}>
 					<Grid.Row>
 						<Grid columns={2} >		
@@ -62,7 +84,7 @@ class SettingPage extends Component{
 								<Container textAlign='left'><h1>Profile</h1></Container>
 								</Grid.Column>
 								<Grid.Column textAlign='center' width={4}>
-									<Container textAlign='right'><Checkbox toggle label="Edit" onChange={()=> this.handleClick()}/></Container>
+									<Container textAlign='right'><Checkbox toggle label="Edit" onChange={()=> this.handleToggle()}/></Container>
 								</Grid.Column>
 						</Grid>
 					</Grid.Row>
@@ -134,6 +156,7 @@ class SettingPage extends Component{
 					</Grid.Row>
 					
 				</Grid.Column>
+				):<PrivacyPage/>}
 			</Grid>
 		
 		)

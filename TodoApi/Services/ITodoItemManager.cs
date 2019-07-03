@@ -7,10 +7,11 @@ namespace TodoApi.Service
     public interface ITodoItemManager
     {
        void CreateTodoItem(TodoItem item, TargetItem targetItem);
+       TodoItem CreateTodoItem(TodoItem todoItem);
        TodoItem GetTodoItemById(int id);
        void DeleteTodoIterm(TodoItem item);
 
-       List<TodoItem> GetAllDefaultTodoItems(TargetItem targetItem);
+       List<TodoItem> GetInbuiltTodoItems(int targetId);
 
 
     }

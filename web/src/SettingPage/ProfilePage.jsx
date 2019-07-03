@@ -62,13 +62,7 @@ class ProfilePage extends Component{
 	}
 }
 
-function mapStateToProps(state) {
-	const { authentication} = state;
-	const { user } = authentication;
-	return {
-		user,
-	};
-}
 
-const connectedProfilePage = connect(mapStateToProps)(ProfilePage);
-export { connectedProfilePage as ProfilePage };
+
+
+export { ProfilePage };

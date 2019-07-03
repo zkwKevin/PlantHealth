@@ -17,7 +17,7 @@ import {
 	Select
   } from 'semantic-ui-react';
 
-class ProfilePage extends Component{
+class PrivacyPage extends Component{
 	
 	render(){
   
@@ -26,22 +26,25 @@ class ProfilePage extends Component{
 				<Grid.Row>
 					<Grid columns={2} >		
                             <Grid.Column textAlign='center' width={12}>
-                            <Container textAlign='left'><h1>Profile</h1></Container>
+                            <Container textAlign='left'><h1>Privacy</h1></Container>
                             </Grid.Column>
                             <Grid.Column textAlign='center' width={4}>
-                                <Container textAlign='right'><Checkbox toggle label="Edit" onChange={()=> this.handleClick()}/></Container>
                             </Grid.Column>
 					</Grid>
 				</Grid.Row>
 					
                 <Grid.Row centered >
-                    <Segment  color='yellow'>
+                    <Segment  color='orange'>
+                    <Container textAlign='center'><h3>Change Your Password</h3></Container>
                     
                         <Form size="large" >
                             <Form.Field  >
-                                <label>Password:</label>
-                                <Segment>1</Segment>
+                                <label>New Password:</label>
+                                <input placeholder="password"/>
                             </Form.Field>
+                            <Button color="blue" fluid size="large">
+                                Submit
+                            </Button>
                             
                         </Form>
                     </Segment>
@@ -54,13 +57,4 @@ class ProfilePage extends Component{
 	}
 }
 
-function mapStateToProps(state) {
-	const { authentication} = state;
-	const { user } = authentication;
-	return {
-		user,
-	};
-}
-
-const connectedProfilePage = connect(mapStateToProps)(ProfilePage);
-export { connectedProfilePage as ProfilePage };
+export { PrivacyPage };

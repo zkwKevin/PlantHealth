@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using TodoApi.Models;
 using TodoApi.Service;
+using WebApi.Helpers;
 
 namespace TodoApi.Controllers{
-    [Route("api/targetItems/{targetId}")]
+    [Route("api/todolog")]
     [ApiController]
     public class TodoLogController : ControllerBase{
         private readonly ITodoLogManager _todoLogManager;
@@ -26,62 +27,44 @@ namespace TodoApi.Controllers{
             _mapper = mapper;
         }
 
-        //Update a TodoLog
-        [HttpPut("logs/{todologId}")]
+        //Create todoLog and bind inbuilt todoItems to it
 
-        public IActionResult UpdateTodoLog(int targetId, int todologId, TodoItem todoItem)
-        {
-            var targetItem = _targetManager.GetTargetItemById(targetId);
-            if(targetItem == null)
+        [HttpPost]
+        public IActionResult CreateTodolog([FromBody] TodoLog todoLog){
+            try
             {
-              return NotFound();
+                _todoLogManager.CreateTodoLogForBuiltIn(todoLog);
+                return Ok();
             }
-            var todoLog = _todoLogManager.GetATodoLog(todologId); 
-            if(todoLog == null)
+            catch(AppException ex)
             {
-              return NotFound();
+                return BadRequest(new {message = ex.Message});
             }
-            todoItem.Id = todoLog.TodoItemId;
-            _todoLogManager.UpdateTodoLog(todoItem);
-            _dayLogManager.CreateFirstDayLog(todologId);
-            //change the mode
-            //********* */
-            return NoContent();
-        }
-        
-
-        
-
-        //Get a TodoLoglist of a target
-        [HttpGet("logs", Name = "GetLogList")]
-        public ActionResult<List<TodoLog>> GetLogList(int targetId)
-        {
-                return  _todoLogManager.GetTodoLogForTargetItem(targetId);
         }
 
-        //Delete a TodoLog
-        [HttpDelete("{todologId}")]
-        public IActionResult DeleteTodoLog(int todologId)
-        {
-            var todolog = _todoLogManager.GetATodoLog(todologId);
-            if(todolog== null ){
-                return NotFound();
-            }
-            var todoItem = _todoItemManager.GetTodoItemById(todolog.TodoItemId);
-            _todoLogManager.DeleteTodoLogForTargetItem(todoItem, todolog);
+        // //Delete a TodoLog
+        // [HttpDelete("{todologId}")]
+        // public IActionResult DeleteTodoLog(int todologId)
+        // {
+        //     var todolog = _todoLogManager.GetATodoLog(todologId);
+        //     if(todolog== null ){
+        //         return NotFound();
+        //     }
+        //     var todoItem = _todoItemManager.GetTodoItemById(todolog.TodoItemId);
+        //     _todoLogManager.DeleteTodoLogForTargetItem(todoItem, todolog);
             
-            return NoContent();
-        }
-        //Delete all TodoLogs
-        [HttpDelete]
-        public IActionResult DeleteAll(int targetId)
-        {
-            var todologs = _todoLogManager.GetTodoLogForTargetItem(targetId);
-            if(todologs== null ){
-                return NotFound();
-            }
-            _todoLogManager.DeleteAllLogs(todologs);
-            return NoContent();
-        }
+        //     return NoContent();
+        // }
+        // //Delete all TodoLogs
+        // [HttpDelete]
+        // public IActionResult DeleteAll(int targetId)
+        // {
+        //     var todologs = _todoLogManager.GetTodoLogForTargetItem(targetId);
+        //     if(todologs== null ){
+        //         return NotFound();
+        //     }
+        //     _todoLogManager.DeleteAllLogs(todologs);
+        //     return NoContent();
+        // }
     }
 }

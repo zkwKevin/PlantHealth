@@ -15,6 +15,9 @@ namespace TodoApi.AutoMapper{
 
             CreateMap<User, UserProfileViewModel>();
             CreateMap<UserProfileViewModel, User>();
+
+            CreateMap<TodoItem, TodoItemResources>();
+            CreateMap<TodoItemResources, TodoItem>();
         }     
     }
 }

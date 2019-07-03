@@ -14,14 +14,23 @@ namespace TodoApi.Service
             _context = context;
         }
 
+        public List<TodoItem> GetInbuiltTodoItems(int targetId)
+        {
+            TargetItem item = _context.TargetItems.Find(targetId);
+            return  _context.TodoItems.Where(x => x.IsBuildIn == true && x.Type.Value == item.Type.Value).ToList();  
+        }
+
+        public TodoItem CreateTodoItem(TodoItem todoItem)
+        {
+            _context.TodoItems.Add(todoItem);
+            _context.SaveChanges(); 
+            return todoItem;
+        }
+
+
         public TodoItem GetTodoItemById(int id){
             var item = _context.TodoItems.Find(id);
             return item;
-        }
-
-        public List<TodoItem> GetAllDefaultTodoItems(TargetItem targetItem)
-        {
-            return  _context.TodoItems.Where(x => x.IsBuildIn == true && x.Type.Value == targetItem.Type.Value).ToList();  
         }
 
         public void CreateTodoItem(TodoItem item, TargetItem targetItem)

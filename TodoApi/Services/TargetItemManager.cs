@@ -32,12 +32,17 @@ namespace TodoApi.Service
                
         }
 
-        public void CreateTargetItem(TargetItem item)
+        public TargetItem CreateTargetItem(TargetItem item)
         {
+            if(_context.TargetItems.Any(x => x.Type == item.Type && x.Name == item.Name))
+                throw new AppException(item.Name + " is already taken");
+            if(item.Name == null)
+                throw new AppException("Please fill in the blanks");
             _context.TargetItems.Add(item);
-            _context.SaveChanges(); 
-        }
+            _context.SaveChanges();
 
+            return item;
+        }
 
         public TargetItem GetTargetItemById(int id){
             var item = _context.TargetItems.Find(id);

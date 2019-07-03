@@ -5,6 +5,7 @@ using System.Linq;
 using TodoApi.Models;
 using TodoApi.Service;
 using WebApi.Helpers;
+using TodoApi.Resources;
 
 namespace TodoApi.Controllers{
     [Route("api/targetItems")]
@@ -39,17 +40,20 @@ namespace TodoApi.Controllers{
         }
         
 
-        // //Add a target
-        // [HttpPost]
-        // public IActionResult CreateTarget([FromBody]TargetItem item){
-        //     if(ModelState.IsValid)
-        //     {
-        //         _manager.CreateTargetItem(item);
-        //         return CreatedAtRoute("GetTarget", new { id = item.Id}, item );
-        //     }
-        //     else
-        //         return BadRequest(ModelState);
-        // }
+        //Add a target
+        [HttpPost]
+        public IActionResult CreateTarget([FromBody]TargetItemResource itemModel){
+            var item = _mapper.Map<TargetItem>(itemModel);
+            try
+            {
+                _targetItemManager.CreateTargetItem(item);
+                return Ok();
+            }
+            catch(AppException ex)
+            {
+                return BadRequest(new {message = ex.Message});
+            }
+        }
 
         // //Get an target by id
         // [HttpGet("{id}", Name = "GetTarget")]

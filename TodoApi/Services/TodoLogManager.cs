@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using TodoApi.Models;
+using WebApi.Helpers;
 
 namespace TodoApi.Service
 {
@@ -16,34 +17,16 @@ namespace TodoApi.Service
             _context = context;
         }
 
-        public List<TodoLog> GetTodoLogForTargetItem(int targetId)
+        public TodoLog CreateTodoLogForBuiltIn(TodoLog todoLog)
         {
-            return _context.TodoLogs.Where(x => x.TargetItemId == targetId).ToList();
-        }
-
-        public TodoLog GetATodoLog(int todologId)
-        {
-            return _context.TodoLogs.Find(todologId);
-        }
-
-
-        public int AddTodoLogForTargetItem(TargetItem targetItem, int todoItemId)
-        {
-            var todolog = new TodoLog {TargetItemId = targetItem.Id, TodoItemId = todoItemId};
-            _context.TodoLogs.Add(todolog);
+            if(_context.TodoLogs.Any(x => x.TargetItemId == todoLog.TargetItemId && x.TodoItemId == todoLog.TodoItemId))
+                throw new AppException("This action is already included");
+            _context.TodoLogs.Add(todoLog);
             _context.SaveChanges(); 
-            return todolog.Id;
+            return todoLog;
+             
         }
 
-        public bool TodoLogIsExist(TargetItem targetItem, int todoItemId)
-        {
-             return  _context.TodoLogs.Any(s => s.TargetItemId == targetItem.Id && s.TodoItemId == todoItemId);
-        }
-
-        public TodoItem GetTodoItemForTodoLog(TodoLog todoLog)
-        {
-            return _context.TodoItems.Find(todoLog.TodoItemId);
-        }
 
         public void UpdateTodoLog(TodoItem todoItem)
         {
@@ -54,7 +37,6 @@ namespace TodoApi.Service
             }  
         }
         
-
         public void DeleteTodoLogForTargetItem(TodoItem todoItem, TodoLog todoLog)
         {
             if(todoItem.IsBuildIn == false)

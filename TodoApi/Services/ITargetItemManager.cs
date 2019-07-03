@@ -9,7 +9,7 @@ namespace TodoApi.Service
         List<TargetItem> GetAllTargetItems();
         List<TargetItem> GetTargetListByUserId(int userId);
 
-        void CreateTargetItem(TargetItem item);
+        TargetItem CreateTargetItem(TargetItem item);
         TargetItem GetTargetItemById(int id);
         void DeleteTargetItem(TargetItem item);
 
