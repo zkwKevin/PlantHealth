@@ -1,90 +1,44 @@
-import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom';
-class AddTarget extends Component{
-    constructor(props){
-      super(props);
-      this.state = {
-        Name: '',
-        Type: '',
-        redirect: false,
-        id:''
-      };
-    }
+import React, { Component } from 'react';
+import { connect} from 'react-redux';
+import { userActions } from '../_actions/user.actions'
+import { Link } from 'react-router-dom';
+import  {Modal, Button}  from 'react-bootstrap';
 
-    handleNameChange(e) {
-      this.setState({Name: e.target.value});
-    }
+class AddTargetPage extends Component{
+	
+	render(){
   
-    handleTypeChange(e) {
-      this.setState({Type: e.target.value});
-    }
-
-    handleFormSubmit(e) {
-      e.preventDefault(); 
-      fetch('https://localhost:5001/api/targetItems', {
-        method: 'post',
-        headers: new Headers({
-          "Content-Type": "application/json",
-        }),
-        body: JSON.stringify({
-          Name: this.state.Name,
-          Type: this.state.Type
-        })
-      })
-      // .then((response) => {
-      //   if(response.ok) {
-      //     response.json().then(data => console.log(data));       
-      //   } else {
-      //     alert(response.statusText);
-      //   }
-      // })
-      // .then(data => this.setState({redirect : true, id: data.id}));
-      .then((response) => {
-        if(response.ok) {
-          var JSONdata = response.json();
-          this.setState({redirect : true, id: JSONdata.id})    
-        } else {
-          alert(response.statusText);
-        }
-      })
-    }
-
-    render() {
-      if (this.state.redirect) {
-        return <Redirect to={{
-          pathname: "/target/:id",
-          state:  { referrer: this.state.id }
-        }} />;
-      }
-      return (
-        <div>
-          <form onSubmit={(e) => this.handleFormSubmit(e)}>
-            <div className="row">
-              <label >Name</label>
-              <input type="text" name="Name" value={this.state.Name}
-                onChange={(e) => this.handleNameChange(e)}/>
-            </div>
-            <div className="row">
-              <h3 >Type</h3>
-              <label >
-                <input type="radio" name="Type" value="Animal"
-                onChange={(e) => this.handleTypeChange(e)}/>Animal
-              </label>
-              <label >
-                <input type="radio" name="Type" value="Plant"
-                onChange={(e) => this.handleTypeChange(e)}/>Plant
-              </label>
-            </div>
-            <div className="row">
-              <input type="submit" value="Create target"/>
-            </div>
-          </form>
-        </div>
-      );
-    }
-  
+		return (
+      <Modal
+        {...this.props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        style={{opacity:1}}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Modal heading
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h4>Centered Modal</h4>
+          <p>
+            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
+            ac consectetur ac, vestibulum at eros.
+          </p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={this.props.onHide}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+    );	
+		
+	}
 }
 
 
 
-export default  AddTarget
+
+export { AddTargetPage };

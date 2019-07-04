@@ -3,6 +3,7 @@ import { connect} from 'react-redux';
 import { targetActions } from '../_actions/target.actions';
 import { styleActions } from '../_actions/style.actions';
 import { Link } from 'react-router-dom';
+import { AddTargetPage } from '../AddTargetPage/AddTargetPage';
 import {
 	Button,
 	Form,
@@ -26,7 +27,8 @@ class AnimalPage extends Component{
 		super(props);
 		this.props.dispatch(styleActions.changeLinkStyleToAnimal());
 		this.state = {
-			showRemove: false
+			showRemove: false,
+			modalShow: false
 		}
 		
 	}
@@ -44,35 +46,48 @@ class AnimalPage extends Component{
 	
 	render(){
 		const { animals, loading , user} = this.props;
-		const { showRemove } = this.state;
+		const { showRemove, modalShow } = this.state;
+		let modalClose = () => this.setState({ modalShow: false });
 		return(	
+
 			<Grid>
 				<Grid.Row>
 					<Grid columns={2} textAlign="center" >																	
 						<Table basic='very'>
 							<Table.Body>
 								<Table.Row >								
-									<Table.Cell >
+									<Table.Cell width={12}>
 										<h1>Animal</h1>
-									</Table.Cell>
-									<Table.Cell colSpan='4'>								
+									</Table.Cell>	
+									<Table.Cell colSpan='8'>								
 									<Button
 										floated='right'
 										icon
 										labelPosition='left'
 										primary
 										size='small'
+										onClick={() => this.setState({ modalShow: true })}
 									>
 										<Icon name='add' /> Add
 									</Button>	
+									<AddTargetPage
+										show={this.state.modalShow}
+										onHide={modalClose}
+									/>
+									
 									</Table.Cell>
+									<Table.Cell >
+										<Checkbox toggle label="Edit" onChange={()=> this.handleToggle()}/>
+									</Table.Cell>																
 								</Table.Row>
 							</Table.Body>
 						</Table>
+						
+							
 						<Divider/>												
 					</Grid>
 				</Grid.Row>
-
+				
 				{animals && 
 					 <Grid celled='internally'>
 					 {animals.map((animal, index) =>
@@ -152,7 +167,7 @@ class AnimalPage extends Component{
 									<Table.Row>
 									
 										<Table.HeaderCell >
-										<Checkbox toggle label="Edit" onChange={()=> this.handleToggle()}/>
+										
 										</Table.HeaderCell>
 										<Table.HeaderCell colSpan='4'>
 										<Button
@@ -162,7 +177,7 @@ class AnimalPage extends Component{
 											primary
 											size='small'
 										>
-											<Icon name='user' /> Add Action
+											<Icon name='plus' /> Add Action
 										</Button>
 										</Table.HeaderCell>
 									</Table.Row>
@@ -174,69 +189,7 @@ class AnimalPage extends Component{
 				 	</Grid>
 				}
 			</Grid>
-			// <Grid>
-				// <Grid.Row>
-				// 	<Grid columns={2} textAlign="center" >																	
-				// 		<Table basic='very'>
-				// 			<Table.Body>
-				// 				<Table.Row >								
-				// 					<Table.Cell >
-				// 						<h1>Animal</h1>
-				// 					</Table.Cell>
-				// 					<Table.Cell colSpan='4'>								
-				// 					<Button
-				// 						floated='right'
-				// 						icon
-				// 						labelPosition='left'
-				// 						primary
-				// 						size='small'
-				// 					>
-				// 						<Icon name='add' /> Add
-				// 					</Button>	
-				// 					</Table.Cell>
-				// 				</Table.Row>
-				// 			</Table.Body>
-				// 		</Table>
-				// 		<Divider/>												
-				// 	</Grid>
-				// </Grid.Row>
-				
-			// 		{ animals? <ul>{
-			// 			animals.map((animal, index) =>
-			// 			{
-			// 				<li key={animal.id}>
-			// 					{ animal.name }	
-			// 				</li>
-			// 				// <Grid.Row>
-							// 	<Grid.Column textAlign='center' width={4}>
-							// 		<Card>
-							// 			{/* <Image src='/images/avatar/large/matthew.png' /> */}
-							// 			<Card.Content>
-							// 				<Card.Header>{animal.name}</Card.Header>
-							// 				<Card.Meta>
-							// 					<span className='date'>Joined in 2019</span>
-							// 				</Card.Meta>
-							// 				<Card.Description>{animal.name} is my best friend.</Card.Description>			
-							// 				{showRemove &&
-							// 					<Button
-							// 							color='red'
-							// 							icon
-							// 							labelPosition='left'
-							// 							size='small'	
-							// 						>
-							// 							<Icon name='trash' /> remove
-							// 					</Button>
-							// 				}	
-							// 			</Card.Content>
-							// 		</Card>
-							// 	</Grid.Column>
-			// 				// </Grid.Row>
-							
-			// 			}
-			// 		)
-			// 		}</ul>: <em>Empty</em>}
-				
-			// </Grid>
+			
 		);
 	}
 }
